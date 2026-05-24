@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://www.bing.com/search?q=NB+monogram+lettermark+shared+stem+geometric+sans+serif+logo+design\" --max-time 30 -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\)\")",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://www.bing.com/search?q=letter+B+geometric+sans+serif+bowl+proportions+logo+design+uppercase\" --max-time 30 -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\)\")",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://raw.githubusercontent.com/CocoCommits/ProductVision/vision_integ_branch/NeeshSecrets/NeeshSecrets.md\" --max-time 30 -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\)\")",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/robot.svg\" --max-time 15 -o nul)",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/handshake.svg\" --max-time 15 -o nul)",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/trophy.svg\" --max-time 15 -o nul)",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/medal.svg\" --max-time 15 -o nul)",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/trending-up.svg\" --max-time 15 -o nul)",
+      "Bash(set PYTHONIOENCODING=utf-8)",
+      "PowerShell($env:PYTHONIOENCODING = \"utf-8\"; cd \"C:\\\\Users\\\\a0486038\\\\Personal_WA\\\\NB_Portfolio\"; python _icon_patch.py)",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.24.0/dist/tabler-icons.min.css\" --max-time 20)",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/package.json\" --max-time 15)",
+      "Bash(curl -sk -x http://webproxy.ext.ti.com:80 \"https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.44.0/dist/tabler-icons.min.css\" --max-time 20)"
+    ]
+  }
+}

@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<!-- <html data-icons="tabler"lang="en"> -->
+<html data-icons="tabler" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Neha Bendale, Product Manager with 6 years in fintech. Built systems processing 1.2B+ annual transactions for 90M+ users at Bajaj Finserv.">
+  <meta name="theme-color" content="#E8E4D9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#28281F" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="Neha Bendale, Product Manager">
+  <meta property="og:description" content="Product Manager with 6 years in fintech. 1.2B+ annual transactions. 90M+ users.">
+  <meta property="og:type" content="website">
+  <title>Neha Bendale · Product Manager</title>
+
+  <!-- No-flash theme init: runs synchronously before body paints -->
+  <script>
+    (function () {
+      var s = localStorage.getItem('theme');
+      var m = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', s || m);
+    }());
+    document.documentElement.setAttribute('data-icons', 'tabler');
+  </script>
+
+  <!-- Google Fonts: Latin subset only, display=swap for perf -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+  /* === ICON MODE SWITCH ===================================================
+     Change data-icons on <html> to switch between emoji and Tabler icons:
+       data-icons="emoji"   => show emoji, hide icons
+       data-icons="tabler"  => show Tabler icons, hide emoji
+  ======================================================================== */
+  [data-icons="emoji"] .i-ti { display: none !important; }
+  [data-icons="tabler"] .i-em { display: none !important; }
+  .i-ti { font-size: 120%; }
+
+
+    /* ─────────────────────────────────────────────────────────────────
+       TOKENS
+    ───────────────────────────────────────────────────────────────── */
+    [data-theme="light"] {
+      --bg:        #FAF8F4;
+      --bg2:       #F0EDE6;
+      --bg3:       #E8E4D9;
+      --fg:        #1A1A1A;
+      --fg2:       #3A3A3A;
+      --fg3:       #7A7A6A;
+      --acc:       #312E81;
+      --acc-h:     #23205F;
+      --acc-l:     #E0E7FF;
+      --bdr:       #C8C4BA;
+      --sh:        rgba(0,0,0,.06);
+      --sh2:       rgba(0,0,0,.14);
+      --halo-color: #818CF8;
+    }
+    [data-theme="dark"] {
+      --bg:        #141412;
+      --bg2:       #1E1E1B;
+      --bg3:       #28281F;
+      --fg:        #F0EDE6;
+      --fg2:       #C8C8BA;
+      --fg3:       #888878;
+      --acc:       #818CF8;
+      --acc-h:     #A5B4FC;
+      --acc-l:     #1E1B4B;
+      --bdr:       #2E2E28;
+      --sh:        rgba(0,0,0,.30);
+      --sh2:       rgba(0,0,0,.55);
+      --halo-color: var(--acc);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 16px; line-height: 1.6;
+      color: var(--fg); background: var(--bg);
+      transition: background-color .25s ease, color .25s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    ul  { list-style: none; }
+    a   { color: var(--acc); text-decoration: none; transition: color .2s; }
+    a:hover { color: var(--acc-h); }
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--acc); outline-offset: 3px; border-radius: 3px;
+    }
+    button { cursor: pointer; font-family: inherit; }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SKIP LINK
+    ───────────────────────────────────────────────────────────────── */
+    .skip { position: absolute; top: -100px; left: 16px; z-index: 9999;
+      background: var(--acc); color: #fff; padding: 8px 16px;
+      border-radius: 0 0 8px 8px; font-size: 14px; font-weight: 500;
+      transition: top .2s; }
+    .skip:focus { top: 0; }
+
+    /* ─────────────────────────────────────────────────────────────────
+       LAYOUT HELPERS
+    ───────────────────────────────────────────────────────────────── */
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+    .lbl {
+      display: block; font-size: 11px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--acc); margin-bottom: 12px;
+    }
+    .h2 {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 32px; font-weight: 600;
+      color: var(--fg); margin-bottom: 40px; line-height: 1.2;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       BUTTONS
+    ───────────────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 11px 24px; border-radius: 8px; border: none;
+      font-size: 15px; font-weight: 500; white-space: nowrap;
+      transition: all .2s ease;
+    }
+    .btn-p { background: var(--acc); color: #fff; }
+    .btn-p:hover { background: var(--acc-h); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 14px var(--sh2); }
+    .btn-o { background: var(--acc-l); color: var(--acc-h); border: 1.5px solid var(--acc); font-weight: 600; }
+    .btn-o:hover { background: var(--acc); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 14px var(--sh2); }
+    [data-theme="dark"] .btn-p,
+    [data-theme="dark"] .btn-p:hover,
+    [data-theme="dark"] .btn-o:hover { color: #0f0e2a; }
+
+    /* ─────────────────────────────────────────────────────────────────
+       PILL
+    ───────────────────────────────────────────────────────────────── */
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 12px; border-radius: 999px;
+      background: var(--acc-l); color: var(--acc);
+      font-size: 12px; font-weight: 500; white-space: nowrap;
+      border: 1px solid color-mix(in srgb, var(--acc) 28%, transparent);
+    }
+    .pill-self { background: var(--acc); color: #fff; border: 1px solid var(--acc-h); }
+    [data-theme="dark"] .pill-self { color: #0f0e2a; }
+    .pill-live { background: rgba(22,163,74,.12); color: #15803d; border: 1px solid rgba(22,163,74,.45); }
+    [data-theme="dark"] .pill-live { background: rgba(74,222,128,.1); color: #4ade80; border: 1px solid rgba(74,222,128,.3); }
+    .pill-ai   { background: var(--acc-l); color: var(--acc); border: 1px solid var(--acc); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────────────────────────────────────── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg3); border-bottom: 1px solid var(--bdr);
+      transition: background .25s, border-color .25s;
+    }
+    .nav.scrolled {
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    }
+    [data-theme="light"] .nav.scrolled { background: rgba(232,228,217,.88); }
+    [data-theme="dark"]  .nav.scrolled { background: rgba(40,40,31,.88); }
+
+    .nav-i {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; max-width: 1100px; margin: 0 auto; padding: 0 24px;
+    }
+    .nav-logo {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 22px; font-weight: 700;
+      color: var(--acc); letter-spacing: -.02em;
+    }
+    .nav-logo:hover { color: var(--acc-h); }
+
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; color: var(--fg2);
+      position: relative; display: inline-flex; align-items: center;
+      height: 64px;
+    }
+    .nav-links a:hover { color: var(--fg); }
+    .nav-links a.active { color: var(--acc); font-weight: 600; }
+    .nav-links a::before {
+      content: '';
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; height: 100%;
+      pointer-events: none;
+      background:
+        linear-gradient(to bottom, var(--acc) 0, var(--acc) 2px, transparent 2px),
+        radial-gradient(ellipse 80% 72% at top center,
+          color-mix(in srgb, var(--acc) 14%, transparent) 0%,
+          transparent 85%);
+      opacity: 0; transition: opacity .3s ease;
+    }
+    .nav-links a.active::before { opacity: 1; }
+
+    .nav-r { display: flex; align-items: center; gap: 12px; }
+    .nav-res {
+      font-size: 13px; font-weight: 600; color: #fff;
+      background: var(--acc); padding: 7px 16px; border: none; border-radius: 8px;
+      transition: all .2s;
+    }
+    .nav-res:hover { background: var(--acc-h); transform: translateY(-1px); }
+    [data-theme="dark"] .nav-res,
+    [data-theme="dark"] .nav-res:hover { color: #0f0e2a; }
+
+    /* Theme toggle pill */
+    .ttog {
+      position: relative; width: 52px; height: 28px;
+      background: none; border: none; padding: 0; display: flex; align-items: center;
+    }
+    .ttog-track {
+      position: absolute; inset: 0; border-radius: 999px;
+      background: var(--bg3); border: 1.5px solid var(--acc);
+      transition: background .25s, border-color .25s;
+    }
+    [data-theme="dark"] .ttog-track {
+      background: var(--bg); border-color: var(--acc);
+    }
+    .ttog-thumb {
+      position: absolute; top: 5px; left: 5px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--acc); z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; line-height: 1; pointer-events: none;
+      box-shadow: 0 1px 4px var(--sh2);
+      transition: transform .25s ease, background .25s;
+    }
+    [data-theme="dark"] .ttog-thumb { transform: translateX(24px); }
+    [data-icons="tabler"] #itog-thumb { transform: translateX(24px); }
+    .ttog:focus-visible .ttog-track { outline: 2px solid var(--acc); outline-offset: 3px; border-radius: 999px; }
+
+    /* Hamburger */
+    .ham {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; padding: 6px 4px;
+    }
+    .ham span {
+      display: block; width: 22px; height: 2px;
+      background: var(--fg); border-radius: 2px; transition: all .2s;
+    }
+    .ham[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .ham[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .ham[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile overlay */
+    .ov {
+      position: fixed; inset: 0; z-index: 200;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 36px;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    .ov.open { opacity: 1; pointer-events: auto; }
+    .ov a {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 26px; font-weight: 600; color: var(--fg);
+    }
+    .ov a:hover { color: var(--acc); }
+    .ov-close {
+      position: absolute; top: 18px; right: 24px;
+      background: none; border: none; font-size: 32px; color: var(--fg);
+      padding: 4px 8px; border-radius: 8px; line-height: 1;
+    }
+    .ov-close:hover { color: var(--acc); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 90vh; display: flex; align-items: center;
+      padding: 80px 0; position: relative; overflow: hidden;
+    }
+    [data-theme="light"] .hero { background: radial-gradient(ellipse at 80% 48%, #D8D2F8 0%, var(--bg) 52%); }
+    /* CSS-only gradient orbs */
+    .hero::before, .hero::after {
+      content: ''; position: absolute; border-radius: 50%;
+      pointer-events: none; animation: orb 10s ease-in-out infinite;
+    }
+    .hero::before {
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, var(--acc-l) 0%, transparent 65%);
+      right: -250px; top: -200px; opacity: .5;
+    }
+    .hero::after {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--acc-l) 0%, transparent 65%);
+      left: -150px; bottom: -150px; opacity: .3;
+      animation-delay: -5s; animation-direction: reverse;
+    }
+    @keyframes orb {
+      0%,100% { transform: translate(0,0); }
+      33%      { transform: translate(30px,-25px); }
+      66%      { transform: translate(-15px,20px); }
+    }
+
+    .hero-g {
+      display: grid; grid-template-columns: 1fr 340px;
+      gap: 64px; align-items: start; position: relative; z-index: 1;
+    }
+    .hero-tag {
+      display: block; font-size: 12px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--acc); margin-bottom: 16px;
+    }
+    .hero-name {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 56px; font-weight: 700; color: var(--fg);
+      line-height: 1.1; letter-spacing: -.02em; margin-bottom: 12px;
+    }
+    .hero-role {
+      font-size: 19px; font-weight: 500; color: var(--fg2); margin-bottom: 20px;
+    }
+    .hero-bio {
+      font-size: 15px; color: var(--fg2); line-height: 1.85;
+      margin-bottom: 32px; max-width: 500px;
+    }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-live {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--bdr);
+    }
+    .hl-lbl { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--fg3); }
+    .hl-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 500; color: var(--fg);
+      background: var(--bg2); border: 1px solid var(--bdr);
+      padding: 6px 14px; border-radius: 999px;
+      transition: border-color .2s, color .2s;
+    }
+    .hl-tag:hover { border-color: var(--acc); color: var(--acc); }
+
+    /* Profile avatar */
+    .photo-wrap { display: flex; justify-content: center; align-items: flex-start; position: relative; }
+    .photo-wrap::before {
+      content: '';
+      position: absolute; top: 42%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px; height: 450px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center,
+        color-mix(in srgb, var(--halo-color) 38%, transparent) 0%,
+        color-mix(in srgb, var(--halo-color) 16%, transparent) 42%,
+        transparent 70%
+      );
+      animation: profile-halo 4s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes profile-halo {
+      0%, 100% { opacity: .55; transform: translate(-50%, -50%) scale(1); }
+      50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.08); }
+    }
+    .profile-img {
+      width: 260px; height: 340px; border-radius: 0; object-fit: contain;
+      object-position: top center;
+      border: none;
+      position: relative; z-index: 1;
+      filter: drop-shadow(0 16px 36px var(--sh2));
+    }
+    .profile-init {
+      width: 260px; height: 320px; border-radius: 20px;
+      background: var(--acc-l); border: none;
+      position: relative; z-index: 1;
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--acc) 20%, transparent),
+        0 0 18px 6px color-mix(in srgb, var(--acc) 22%, transparent),
+        0 0 48px 16px color-mix(in srgb, var(--acc) 10%, transparent),
+        0 24px 48px var(--sh2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 80px; font-weight: 700; color: var(--acc);
+      letter-spacing: -.04em; user-select: none;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       IMPACT STRIP
+    ───────────────────────────────────────────────────────────────── */
+    .impact {
+      background: var(--bg2);
+      border-top: 1px solid var(--bdr); border-bottom: 1px solid var(--bdr);
+      padding: 60px 0;
+    }
+    .impact-g { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+    .impact-item { text-align: center; }
+    .impact-n {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 48px; font-weight: 700; color: var(--fg);
+      line-height: 1; margin-bottom: 8px;
+    }
+    .impact-lbl { font-size: 14px; color: var(--fg2); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SKILLS
+    ───────────────────────────────────────────────────────────────── */
+    .skills-bg { background: var(--bg2); }
+    .skills-g { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .sk-card {
+      background: var(--bg); border: 1px solid var(--bdr); border-radius: 16px;
+      padding: 24px 20px;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .25s;
+    }
+    .sk-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px var(--sh); border-color: var(--acc); }
+    .sk-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .sk-ico {
+      width: 52px; height: 52px; flex-shrink: 0;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      background: var(--acc-l);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; line-height: 1;
+      transition: background .25s;
+    }
+    .sk-card:hover .sk-ico { background: var(--acc); }
+    .sk-cat { font-size: 14px; font-weight: 600; color: var(--fg); }
+    .skill-lbl { display: none; }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* ─────────────────────────────────────────────────────────────────
+       PROJECT GRID
+    ───────────────────────────────────────────────────────────────── */
+    .proj-g {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    }
+    .card {
+      background: var(--bg2); border: 1.5px solid var(--bdr);
+      box-shadow: 0 2px 8px var(--sh);
+      border-radius: 16px; padding: 28px;
+      display: flex; flex-direction: column;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px var(--sh2); border-color: var(--acc); }
+
+    /* ─── 2-COLUMN CARD LAYOUT ─── */
+    .card-feat { grid-column: 1 / -1; border-top: 3px solid var(--acc); }
+    .card-row { display: grid; grid-template-columns: 160px 1fr; gap: 18px; margin-bottom: 16px; flex: 1; }
+    .card-feat .card-row { grid-template-columns: 280px 1fr; gap: 20px; }
+    .card-feat .card-vis { min-height: unset; }
+    .card-feat .card-thumb { width: 100%; aspect-ratio: 4/3; height: auto; min-height: unset; object-fit: cover; }
+    .card-vis { border-radius: 10px; overflow: hidden; min-height: 140px; }
+    .card-banner-v {
+      width: 100%; height: 100%; min-height: 140px;
+      background: linear-gradient(160deg, var(--acc-l) 0%, var(--bg3) 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px; position: relative; overflow: hidden;
+    }
+    .card-banner-v::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(45deg,transparent 40%,rgba(255,255,255,.04));
+    }
+    .cb-text { text-align: center; position: relative; z-index: 1; }
+    .cb-co { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--acc); margin-bottom: 8px; }
+    .cb-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 17px; font-weight: 700; color: var(--fg); line-height: 1.3; }
+    .card-thumb { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 180px; }
+    .card-body { display: flex; flex-direction: column; min-width: 0; }
+    .card-meta { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .card-co   { font-size: 12px; color: var(--fg3); white-space: nowrap; flex-shrink: 0; }
+    .card-title { font-size: 18px; font-weight: 600; color: var(--fg); margin-bottom: 6px; line-height: 1.3; }
+    .card-sum   { font-size: 14px; color: var(--fg2); line-height: 1.6; margin-bottom: 12px; }
+    .card-buls  { margin-bottom: 12px; }
+    .card-buls li { font-size: 14px; color: var(--fg2); padding: 4px 0 4px 18px; position: relative; line-height: 1.6; }
+    .card-buls li::before { content: '▸'; position: absolute; left: 2px; color: var(--acc); font-size: 11px; top: 7px; }
+    .card-mets { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; padding-top: 18px; border-top: 1px solid var(--bdr); margin-top: auto; }
+    .met-chip {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 4px; padding: 18px 10px; border-radius: 14px; text-align: center;
+      font-size: 22px;
+      background: linear-gradient(145deg, var(--acc-l) 0%, var(--bg2) 100%);
+      border: 1px solid color-mix(in srgb, var(--acc) 30%, transparent);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .25s;
+      cursor: default;
+    }
+    .met-chip:hover { transform: translateY(-4px); box-shadow: 0 12px 28px var(--sh2); border-color: var(--acc); }
+    .met-chip b { font-size: 13px; font-weight: 700; color: var(--acc); line-height: 1.3; letter-spacing: .01em; }
+    @keyframes tile-in { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    .met-chip.tile-vis { animation: tile-in .45s ease both; }
+    .card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 14px; gap: 12px; }
+    .card-foot-l { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 500; color: var(--acc);
+      background: var(--acc-l); padding: 4px 10px; border-radius: 999px;
+      transition: background .2s;
+    }
+    .live-badge:hover { background: var(--bg3); color: var(--acc-h); }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #4ade80;
+      flex-shrink: 0; animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    .rmb {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--acc);
+      background: var(--acc-l); border: 1.5px solid var(--acc);
+      padding: 10px 22px; border-radius: 999px;
+      transition: background .25s, color .25s, transform .2s, box-shadow .2s;
+    }
+    .rmb:hover { background: var(--acc); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px var(--sh2); }
+    [data-theme="dark"] .rmb:hover { color: #0f0e2a; }
+    .rmb.open { background: var(--bg3); border-color: var(--bdr); }
+    .rmb.open:hover { background: var(--bg2); color: var(--acc); transform: none; box-shadow: none; }
+    @keyframes chev-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+    .chev { display: inline-block; animation: chev-bounce 2s ease-in-out infinite; }
+    .rmb.open .chev { animation: none; transform: rotate(180deg); }
+
+    /* Expand panel */
+    .card-det {
+      overflow: hidden; max-height: 0;
+      transition: max-height .45s cubic-bezier(.4,0,.2,1);
+    }
+    .card-det.open { max-height: 1600px; }
+    .card-det-i {
+      padding-top: 20px; border-top: 1px solid var(--bdr); margin-top: 16px;
+    }
+    .det-buls { margin-bottom: 16px; }
+    .det-buls li {
+      font-size: 14px; color: var(--fg2);
+      padding: 5px 0 5px 20px; position: relative; line-height: 1.6;
+    }
+    .det-buls li::before { content: '▸'; position: absolute; left: 0; color: var(--acc); font-weight: 700; font-size: 13px; }
+    .det-buls code { font-family: 'Courier New', monospace; font-size: 12px; background: var(--bg3); padding: 1px 5px; border-radius: 4px; color: var(--acc); }
+    .close-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 13px; font-weight: 500; color: var(--fg3);
+      background: none; border: none; padding: 2px 0; margin-top: 8px;
+      transition: color .2s;
+    }
+    .close-btn:hover { color: var(--acc); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       STACKED SCREENSHOT VIEWER
+    ───────────────────────────────────────────────────────────────── */
+    .stack-v {
+      position: relative; aspect-ratio: 4/3; margin-bottom: 8px;
+      cursor: pointer; outline: none;
+    }
+    .det-g { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+    .det-copy { display: flex; flex-direction: column; }
+    .stack-v:focus-visible { outline: 2px solid var(--acc); outline-offset: 4px; border-radius: 14px; }
+    .s-card {
+      position: absolute; inset: 0; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 8px 24px var(--sh2);
+      background: linear-gradient(135deg, var(--acc-l), var(--bg3));
+      transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
+    }
+    .s-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      background: var(--bg3);
+    }
+    .s-dots { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+    .s-dot {
+      width: 6px; height: 6px; border-radius: 50%; border: none;
+      background: var(--bdr); padding: 0; cursor: pointer;
+      transition: background .2s;
+    }
+    .s-dot.on { background: var(--acc); }
+
+    /* Stack viewer arrows */
+    .s-arr {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 10; width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(0,0,0,.35); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.2);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      padding: 0; cursor: pointer;
+      opacity: .55; transition: opacity .2s, transform .2s;
+    }
+    .s-arr:hover { opacity: 1; transform: translateY(-50%) scale(1.08); }
+    .s-arr-l { left: 10px; }
+    .s-arr-r { right: 10px; }
+
+    /* ─────────────────────────────────────────────────────────────────
+       JOURNEY / ROAD TIMELINE
+    ───────────────────────────────────────────────────────────────── */
+    .exp-bg { background: var(--bg2); }
+    .road-tl { position: relative; padding: 48px 0 8px; }
+    /* Upward line — solid accent at top, fades out at bottom */
+    .road-tl::before {
+      content: ''; position: absolute;
+      left: 50%; transform: translateX(-50%);
+      top: 16px; bottom: 0; width: 2px;
+      background: linear-gradient(to top, transparent 0%, var(--bdr) 12%, var(--acc) 78%);
+      opacity: .65;
+    }
+    /* Notched arrowhead — flush with line top, points up */
+    .road-tl::after {
+      content: ''; position: absolute;
+      left: 50%; transform: translateX(-50%);
+      top: 0; width: 18px; height: 16px;
+      background: var(--acc);
+      clip-path: polygon(0 100%, 50% 0%, 100% 100%, 72% 70%, 50% 46%, 28% 70%);
+      opacity: .82;
+    }
+    .road-stop {
+      display: grid; grid-template-columns: 1fr 64px 1fr;
+      align-items: center; min-height: 90px;
+      margin-bottom: 12px; position: relative; z-index: 2;
+    }
+    .road-pin-col { grid-column: 2; display: flex; justify-content: center; }
+    .road-pin {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--bg2); border: 3px solid var(--acc);
+      position: relative; z-index: 3; flex-shrink: 0;
+      transition: transform .2s;
+    }
+    .road-stop:hover .road-pin { transform: scale(1.2); }
+    @keyframes road-pulse { 0%,100%{box-shadow:0 0 0 4px var(--acc-l)} 50%{box-shadow:0 0 0 8px var(--acc-l)} }
+    .road-pin.cur { background: var(--acc); animation: road-pulse 2.5s ease-in-out infinite; }
+    .road-card {
+      background: var(--bg); border: 1px solid var(--bdr); border-radius: 12px;
+      padding: 16px 20px; position: relative;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .road-card:hover { border-color: var(--acc); box-shadow: 0 4px 20px var(--sh); }
+    /* Connector lines */
+    .road-stop--l .road-card::after,
+    .road-stop--r .road-card::before {
+      content: ''; position: absolute; top: 50%;
+      height: 2px; background: var(--bdr); border-radius: 1px;
+    }
+    .road-stop--l .road-card::after  { right: -22px; width: 22px; }
+    .road-stop--r .road-card::before { left:  -22px; width: 22px; }
+    /* Explicit grid placement */
+    .road-stop--l .road-card    { grid-column: 1; text-align: right; }
+    .road-stop--l .road-pin-col { grid-column: 2; }
+    .road-stop--l .road-gap     { grid-column: 3; }
+    .road-stop--r .road-gap     { grid-column: 1; }
+    .road-stop--r .road-pin-col { grid-column: 2; }
+    .road-stop--r .road-card    { grid-column: 3; }
+    .road-per  { font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--fg3); margin-bottom: 4px; }
+    .road-role { font-size: 15px; font-weight: 600; color: var(--fg); line-height: 1.4; margin-bottom: 3px; }
+    .road-co   { font-size: 13px; color: var(--fg2); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       ACHIEVEMENTS
+    ───────────────────────────────────────────────────────────────── */
+    .ach-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .ach-chip {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 28px;
+      background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+      border: 1px solid var(--acc-l); border-radius: 14px;
+      font-size: 14px; font-weight: 600; color: var(--fg);
+      position: relative; overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .ach-chip::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px; background: var(--acc); border-radius: 2px 0 0 2px;
+    }
+    .ach-chip:hover { transform: translateY(-3px); box-shadow: 0 10px 28px var(--sh2); }
+    .ach-ico { font-size: 22px; }
+
+    /* ─────────────────────────────────────────────────────────────────
+       CONTACT
+    ───────────────────────────────────────────────────────────────── */
+    .contact-bg { background: var(--bg3); text-align: center; }
+    .contact-h {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 48px; font-weight: 700; color: var(--fg); margin-bottom: 12px;
+    }
+    .contact-sub { font-size: 16px; color: var(--fg2); margin-bottom: 40px; }
+    .contact-cards {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .contact-card {
+      display: flex; align-items: center; gap: 14px; text-align: left;
+      background: var(--bg2); border: 1px solid var(--bdr); border-radius: 14px;
+      padding: 18px 22px; min-width: 260px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .contact-card:hover { border-color: var(--acc); box-shadow: 0 6px 24px var(--sh); }
+    .ci-wrap {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      background: var(--acc-l); color: var(--acc);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ci-wrap svg { width: 22px; height: 22px; }
+    .ci-body { flex: 1; min-width: 0; }
+    .cl-lbl {
+      display: block; font-size: 11px; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--fg3); margin-bottom: 3px;
+    }
+    .cl-val { font-size: 14px; font-weight: 500; color: var(--acc); }
+    .cl-val:hover { color: var(--acc-h); }
+    .copy-btn {
+      width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+      background: var(--bg3); border: 1px solid var(--bdr);
+      color: var(--fg3); display: flex; align-items: center; justify-content: center;
+      padding: 0; transition: all .2s;
+    }
+    .copy-btn:hover { background: var(--acc-l); color: var(--acc); border-color: var(--acc); }
+    .copy-btn.copied { background: rgba(74,222,128,.14); color: #16a34a; border-color: #4ade80; }
+    .copy-btn svg { width: 16px; height: 16px; pointer-events: none; }
+    .copy-btn .icon-check { display: none; }
+    .copy-btn.copied .icon-copy { display: none; }
+    .copy-btn.copied .icon-check { display: block; }
+    .contact-btns { margin-bottom: 40px; }
+    .contact-edu { font-size: 13px; color: var(--fg3); line-height: 1.9; margin-bottom: 40px; }
+    .footer { font-size: 13px; color: var(--fg3); padding-top: 24px; border-top: 1px solid var(--bdr); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       RESPONSIVE — TABLET (768–1023)
+    ───────────────────────────────────────────────────────────────── */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .hero-g { grid-template-columns: 1fr 280px; gap: 40px; }
+      .hero-name { font-size: 44px; }
+      .profile-img, .profile-init { width: 220px; height: 275px; font-size: 64px; }
+      .photo-wrap::before { width: 310px; height: 390px; }
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       RESPONSIVE — MOBILE (max 767)
+    ───────────────────────────────────────────────────────────────── */
+    @media (max-width: 767px) {
+      section { padding: 48px 0; }
+      .wrap   { padding: 0 16px; }
+      .h2     { font-size: 26px; }
+
+      /* Nav */
+      .nav-links, .nav-res { display: none; }
+      .ham { display: flex; }
+
+      /* Hero */
+      .hero   { min-height: auto; padding: 48px 0 60px; }
+      .hero-g { grid-template-columns: 1fr; gap: 36px; }
+      .photo-wrap { order: -1; }
+      .hero-name  { font-size: 36px; }
+      .hero-role  { font-size: 17px; }
+      .hero-bio   { font-size: 14px; max-width: 100%; }
+      .hero-ctas  { flex-direction: column; }
+      .hero-ctas .btn { justify-content: center; }
+      .profile-img, .profile-init { width: 160px; height: 200px; font-size: 48px; }
+      .photo-wrap::before { width: 230px; height: 295px; }
+
+      /* Impact */
+      .impact-g   { grid-template-columns: 1fr 1fr; gap: 28px; }
+      .impact-n   { font-size: 32px; }
+
+      /* Skills: 2-col tile grid on mobile */
+      .skills-g { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .sk-card { padding: 16px 14px; }
+      .sk-ico { font-size: 22px; }
+      .sk-cat { font-size: 13px; }
+      .skill-pills { gap: 6px; }
+
+      /* Projects: vertical stack, seamless scroll */
+      .proj-g { grid-template-columns: 1fr; gap: 16px; }
+      .card { min-width: unset; padding: 18px; }
+
+      /* All cards stack vertically: image on top, text below */
+      .card-row, .card-feat .card-row { grid-template-columns: 1fr; gap: 14px; margin-bottom: 12px; }
+
+      /* Featured card thumbnail: full-width, screen-scaled 16:9 on small screens */
+      .card-feat .card-vis { max-width: 100%; border-radius: 8px 8px 0 0; }
+      .card-feat .card-thumb {
+        width: 100%; aspect-ratio: 16/9; height: auto; min-height: unset;
+        border-radius: 8px 8px 0 0;
+      }
+
+      /* BF card banner: full-width, short accent strip */
+      .card-vis { min-height: unset; border-radius: 8px 8px 0 0; }
+      .card-banner-v { min-height: 72px; border-radius: 8px 8px 0 0; padding: 12px; }
+      .cb-co { font-size: 10px; }
+      .cb-title { font-size: 14px; }
+
+      /* Card body text: larger for readability */
+      .card-title { font-size: 17px; }
+      .card-sum   { font-size: 14px; }
+      .card-buls li { font-size: 13px; }
+
+      /* Metric tiles: 2-col grid */
+      .card-mets { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .met-chip { padding: 12px 8px; font-size: 18px; }
+      .met-chip b { font-size: 12px; }
+
+      /* Expanded detail: stack screenshot above bullets on mobile */
+      .det-g { grid-template-columns: 1fr; gap: 16px; }
+
+      /* Journey: mobile single-column */
+      .road-tl::before { left: 24px; transform: translateX(-50%); top: 22px; }
+      .road-tl::after  { left: 24px; transform: translateX(-50%); }
+      .road-stop { grid-template-columns: 48px 1fr; min-height: unset; margin-bottom: 8px; }
+      .road-gap  { display: none; }
+      .road-stop--l .road-card,
+      .road-stop--r .road-card    { grid-column: 2; grid-row: 1; text-align: left; }
+      .road-stop--l .road-pin-col,
+      .road-stop--r .road-pin-col { grid-column: 1; grid-row: 1; }
+      .road-stop--l .road-card::after,
+      .road-stop--r .road-card::before { display: none; }
+      .road-card { padding: 12px 16px; }
+
+      /* Achievements */
+      .ach-row { flex-direction: column; }
+
+      /* Contact */
+      .contact-h { font-size: 36px; }
+      .contact-links { flex-direction: column; gap: 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .card-mets { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .skills-g { grid-template-columns: 1fr; }
+      .hero-live { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.44.0/dist/tabler-icons.min.css">
+</head>
+<body>
+
+<a href="#main" class="skip">Skip to main content</a>
+
+<!-- ═══════════ MOBILE OVERLAY NAV ═══════════ -->
+<nav class="ov" id="ov" role="dialog" aria-modal="true" aria-label="Site navigation">
+  <button class="ov-close" id="ovClose" aria-label="Close menu">×</button>
+  <a href="#about">About</a>
+  <a href="#skills">Skills</a>
+  <a href="#personal">Independent Projects</a>
+  <a href="#projects">Professional Experience</a>
+  <a href="#experience">Journey</a>
+  <a href="#contact">Let's Connect</a>
+  <a href="assets/resume.pdf" target="_blank" style="display:none">Resume</a>
+</nav>
+
+<!-- ═══════════ STICKY NAV ═══════════ -->
+<header class="nav" id="mainNav">
+  <div class="nav-i">
+    <a href="#" class="nav-logo" aria-label="Neha Bendale, home">NB</a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#personal">Independent Projects</a></li>
+        <li><a href="#projects">Professional Experience</a></li>
+        <li><a href="#experience">Journey</a></li>
+        <li><a href="#contact">Let's Connect</a></li>
+      </ul>
+    </nav>
+    <div class="nav-r">
+      <a href="assets/resume.pdf" target="_blank" class="nav-res" aria-label="Resume (opens new tab)" style="display:none">Resume</a>
+      <button class="ttog" id="itog" role="switch" aria-label="Toggle icon style" aria-checked="true" style="display:none">
+        <div class="ttog-track"></div>
+        <div class="ttog-thumb" id="itog-thumb" aria-hidden="true">⊞</div>
+      </button>
+      <button class="ttog" id="ttog" role="switch" aria-label="Toggle colour theme" aria-checked="false">
+        <div class="ttog-track"></div>
+        <div class="ttog-thumb" id="ttog-thumb" aria-hidden="true"><span class="i-em">☀</span><i class="ti ti-sun i-ti"></i></div>
+      </button>
+      <button class="ham" id="ham" aria-label="Open navigation" aria-expanded="false" aria-controls="ov">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero" id="about" aria-label="Introduction">
+    <div class="wrap">
+      <div class="hero-g">
+        <div class="hero-txt">
+          <h1 class="hero-name">Neha Bendale</h1>
+          <p class="hero-bio">Product Manager with 6 years in payments, lending, and platform at Bajaj Finserv. I own systems processing 1.2B+ annual transactions for 90M+ users. My work sits at the intersection of B2B2C platform products, API integrations with regulated partners, and 0-to-1 builds; I work closely with engineering, risk, compliance, and commercial teams to ship. Currently building an AI-native personal wealth platform in private beta.</p>
+          <div class="hero-ctas">
+            <a href="#personal" class="btn btn-p">See My Work</a>
+            <a href="assets/resume.pdf" target="_blank" class="btn btn-o" style="display:none">Resume</a>
+          </div>
+          <div class="hero-live">
+            <span class="hl-lbl">Live now:</span>
+            <a href="https://neesh.share.zrok.io/auth/login" target="_blank" rel="noopener noreferrer" class="hl-tag">
+              <span class="live-dot" aria-hidden="true"></span>NEESH · Family Wealth Tracker
+            </a>
+            <a href="https://neeshsecrets.share.zrok.io" target="_blank" rel="noopener noreferrer" class="hl-tag">
+              <span class="live-dot" aria-hidden="true"></span>NEESHSECRETS · Family Vault
+            </a>
+          </div>
+        </div>
+        <div class="photo-wrap">
+          <img
+            src="assets/photo.png"
+            alt="Neha Bendale, Product Manager"
+            class="profile-img"
+            id="heroImg"
+            loading="lazy"
+            onerror="this.style.display='none';document.getElementById('heroInit').style.display='flex';"
+          >
+          <div class="profile-init" id="heroInit" style="display:none" aria-hidden="true">NB</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ IMPACT STRIP ═══════════ -->
+  <div class="impact" role="region" aria-label="Key impact metrics">
+    <div class="wrap">
+      <div class="impact-g" id="impactG">
+        <div class="impact-item">
+          <div class="impact-n" data-target="1.2" data-suffix="B+" data-dec="1">0</div>
+          <div class="impact-lbl">Annual Transactions</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-n" data-target="90" data-suffix="M+">0</div>
+          <div class="impact-lbl">Users Served</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-n" data-target="6" data-suffix=" Years">0</div>
+          <div class="impact-lbl">in Fintech</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-n" data-target="4" data-suffix="">0</div>
+          <div class="impact-lbl">Regulated Partners</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SKILLS ═══════════ -->
+  <section class="skills-bg" id="skills" aria-label="Skills">
+    <div class="wrap">
+      <h2 class="h2">Skills</h2>
+      <div class="skills-g">
+        <div class="sk-card">
+          <div class="sk-head"><span class="sk-ico"><span class="i-em">💳</span><i class="ti ti-credit-card i-ti"></i></span><span class="sk-cat">Payments &amp; FinTech</span></div>
+          <div class="skill-pills">
+            <span class="pill">Payment Gateway</span><span class="pill">Checkout</span><span class="pill">UPI</span><span class="pill">BBPS</span><span class="pill">Co-Lending</span><span class="pill">Settlement</span>
+          </div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-head"><span class="sk-ico"><span class="i-em">🛡️</span><i class="ti ti-shield i-ti"></i></span><span class="sk-cat">Compliance &amp; Risk</span></div>
+          <div class="skill-pills">
+            <span class="pill">KYC</span><span class="pill">Audit Trail</span><span class="pill">RBI Compliance</span><span class="pill">Risk Controls</span><span class="pill">Regulatory Reporting</span>
+          </div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-head"><span class="sk-ico"><span class="i-em">🤖</span><i class="ti ti-robot i-ti"></i></span><span class="sk-cat">AI &amp; Emerging Tech</span></div>
+          <div class="skill-pills">
+            <span class="pill">LLMs</span><span class="pill">Generative AI</span><span class="pill">AI Agents</span><span class="pill">Prompt Engineering</span>
+          </div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-head"><span class="sk-ico"><span class="i-em">⚙️</span><i class="ti ti-settings i-ti"></i></span><span class="sk-cat">Technical</span></div>
+          <div class="skill-pills">
+            <span class="pill">API Design</span><span class="pill">REST APIs</span><span class="pill">SQL</span><span class="pill">Data Analytics</span><span class="pill">Mixpanel</span>
+          </div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-head"><span class="sk-ico"><span class="i-em">🗺️</span><i class="ti ti-map i-ti"></i></span><span class="sk-cat">Product Management</span></div>
+          <div class="skill-pills">
+            <span class="pill">PRD</span><span class="pill">OKRs &amp; KPIs</span><span class="pill">0-to-1</span><span class="pill">Roadmaps</span><span class="pill">User Stories</span>
+          </div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-head"><span class="sk-ico"><span class="i-em">🤝</span><i class="ti ti-friends i-ti"></i></span><span class="sk-cat">Leadership</span></div>
+          <div class="skill-pills">
+            <span class="pill">Cross-functional Teams</span><span class="pill">Partner Ecosystems</span><span class="pill">Executive Communication</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PERSONAL PROJECTS ═══════════ -->
+  <section id="personal" aria-label="Personal projects" style="padding-bottom:0">
+    <div class="wrap">
+      <h2 class="h2">Independent Projects</h2>
+      <div class="proj-g" id="projG">
+
+        <!-- Card 1: NEESH -->
+        <article class="card card-feat">
+          <div class="card-row">
+            <div class="card-vis">
+              <img class="card-thumb" src="assets/dark/neesh_01_dashboard.jpg" data-light="assets/light/neesh_01_dashboard.jpg" data-dark="assets/dark/neesh_01_dashboard.jpg" alt="NEESH preview" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-tags"><span class="pill pill-self">Self-Built</span><span class="pill pill-live">Live</span><span class="pill pill-ai">AI</span><span class="pill">0-to-1</span></div>
+                <span class="card-co">Independent · Live Beta</span>
+              </div>
+              <h3 class="card-title">NEESH · Never Ending Earnest Savings Hustle</h3>
+              <ul class="card-buls">
+                <li>Self-hosted on a Raspberry Pi; tracks investments across 11 asset classes with live prices and XIRR, income with TDS, and expenses; no cloud storage, no subscriptions</li>
+                <li>3-tier AI import: local regex first (zero cost), then Gemini Flash, then Gemini Pro verification catches ~15% of errors that slip through</li>
+                <li>Corporate actions (bonus, split, merger, demerger) sync daily from NSE and queue for user approval before applying</li>
+              </ul>
+              <div class="card-foot">
+                <div class="card-foot-l">
+                  <a href="https://neesh.share.zrok.io/auth/login" target="_blank" rel="noopener noreferrer" class="live-badge" aria-label="NEESH live beta (opens new tab)">
+                    <span class="live-dot" aria-hidden="true"></span>Live · Private Beta
+                  </a>
+                  <a href="https://github.com/CocoCommits/ProductVision/blob/vision_integ_branch/NEESH/NEESH.md" target="_blank" rel="noopener noreferrer" class="pill" aria-label="NEESH on GitHub (opens new tab)">
+                    <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    GitHub
+                  </a>
+                </div>
+                <button class="rmb" onclick="toggleCard(this)" aria-expanded="false">Read more <span class="chev">↓</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="card-mets">
+            <span class="met-chip"><span class="i-em">📊</span><i class="ti ti-chart-bar i-ti"></i> <b>Investment Tracking</b></span>
+            <span class="met-chip"><span class="i-em">💰</span><i class="ti ti-coin i-ti"></i> <b>Income Tracking</b></span>
+            <span class="met-chip"><span class="i-em">💸</span><i class="ti ti-cash i-ti"></i> <b>Expense Tracking</b></span>
+            <span class="met-chip"><span class="i-em">🤖</span><i class="ti ti-robot i-ti"></i> <b>AI Insights · In Dev</b></span>
+            <span class="met-chip"><span class="i-em">🔐</span><i class="ti ti-lock i-ti"></i> <b>Zero Cloud Data</b></span>
+            <span class="met-chip"><span class="i-em">👨‍👩‍👧</span><i class="ti ti-users-group i-ti"></i> <b>Multi-Family</b></span>
+          </div>
+          <div class="card-det">
+            <div class="card-det-i">
+              <div class="det-g">
+                <div class="det-media">
+                  <div class="stack-v" id="sv-neesh" tabindex="0" role="img" aria-label="NEESH screenshots: press Enter or click to advance">
+                    <div class="s-card"><img src="assets/dark/neesh_01_dashboard.jpg" data-light="assets/light/neesh_01_dashboard.jpg" data-dark="assets/dark/neesh_01_dashboard.jpg" alt="NEESH dashboard" loading="lazy"></div>
+                    <div class="s-card"><img src="assets/dark/neesh_02_portfolio.jpg" data-light="assets/light/neesh_02_portfolio.jpg" data-dark="assets/dark/neesh_02_portfolio.jpg" alt="NEESH portfolio view" loading="lazy"></div>
+                    <div class="s-card"><img src="assets/dark/neesh_03_holdings.jpg" data-light="assets/light/neesh_03_holdings.jpg" data-dark="assets/dark/neesh_03_holdings.jpg" alt="NEESH holdings" loading="lazy"></div>
+                    <div class="s-card"><img src="assets/dark/neesh_04_analytics.jpg" data-light="assets/light/neesh_04_analytics.jpg" data-dark="assets/dark/neesh_04_analytics.jpg" alt="NEESH analytics" loading="lazy"></div>
+                    <div class="s-card"><img src="assets/dark/neesh_05_feature.jpg" data-light="assets/light/neesh_05_feature.jpg" data-dark="assets/dark/neesh_05_feature.jpg" alt="NEESH features" loading="lazy"></div>
+                    <button class="s-arr s-arr-l" onclick="prevStack('neesh'); event.stopPropagation();" aria-label="Previous screenshot">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <button class="s-arr s-arr-r" onclick="advStack('neesh'); event.stopPropagation();" aria-label="Next screenshot">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                  </div>
+                  <div class="s-dots" id="sd-neesh" aria-label="Screenshot navigation">
+                    <button class="s-dot on" onclick="goSlide('neesh',0)" aria-label="Screenshot 1"></button>
+                    <button class="s-dot"    onclick="goSlide('neesh',1)" aria-label="Screenshot 2"></button>
+                    <button class="s-dot"    onclick="goSlide('neesh',2)" aria-label="Screenshot 3"></button>
+                    <button class="s-dot"    onclick="goSlide('neesh',3)" aria-label="Screenshot 4"></button>
+                    <button class="s-dot"    onclick="goSlide('neesh',4)" aria-label="Screenshot 5"></button>
+                  </div>
+                </div>
+                <div class="det-copy">
+                  <ul class="det-buls">
+                    <li>Transactions are the source of truth; holdings are always recomputed, never stored independently; no data can go out of sync across 11 asset classes</li>
+                    <li>3-tier AI import pipeline: local regex parser (known formats, zero cost), then Gemini Flash for extraction, then Gemini Pro for verification; catches ~15% of extraction errors in the final pass</li>
+                    <li>Corporate actions sync daily via NSE API: bonus, split, demerger, merger, symbol change; user-approved before applying, never auto-mutated</li>
+                    <li>FIFO lot tracking per Indian tax law; XIRR computed via Rust-based pyxirr; LTCG/STCG auto-classified with exempt thresholds per asset class</li>
+                    <li>Multi-currency: RSUs, ESPPs, and US stocks tracked in both USD and INR using RBI reference rates, with perquisite tax computed at vest</li>
+                    <li>Family accounts: up to 4 members per family, 5 families (15 users), 3-tier permissions (owner/editor/viewer); combined family dashboard</li>
+                    <li>Remote access without port forwarding: ZROK tunnel + Cloudflare Worker + KV; family bookmarks a stable URL that auto-redirects regardless of Pi restarts</li>
+                    <li>Designed for 50-year data longevity on a Raspberry Pi; single SQLite file, no Docker, no Redis, full schema migration via Alembic</li>
+                  </ul>
+                  <button class="close-btn" onclick="closeCard(this)">Close ↑</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2: NEESHSECRETS -->
+        <article class="card card-feat">
+          <div class="card-row">
+            <div class="card-vis">
+              <img class="card-thumb" src="assets/dark/secrets_01_list.jpg" data-light="assets/light/secrets_01_login.jpg" data-dark="assets/dark/secrets_01_list.jpg" alt="NEESHSECRETS preview" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-tags"><span class="pill pill-self">Self-Built</span><span class="pill pill-live">Live</span><span class="pill">Security</span><span class="pill">Zero-Knowledge</span></div>
+                <span class="card-co">Independent · Live</span>
+              </div>
+              <h3 class="card-title">NEESHSECRETS · Silent Encrypted Credentials</h3>
+              <ul class="card-buls">
+                <li>AES-256-GCM encryption runs in the browser; server stores only ciphertext blobs; a full DB breach exposes nothing readable, not even field names</li>
+                <li>Nominee inheritance via a two-key cryptographic gate (out-of-band passphrase plus server secret); neither key alone decrypts; owner login during the 72h grace period auto-cancels</li>
+                <li>Client-side search: entry labels decrypted in browser memory at login; all filtering runs locally, server never sees a query</li>
+              </ul>
+              <div class="card-foot">
+                <div class="card-foot-l">
+                  <a href="https://neeshsecrets.share.zrok.io" target="_blank" rel="noopener noreferrer" class="live-badge" aria-label="NEESHSECRETS live (opens new tab)">
+                    <span class="live-dot" aria-hidden="true"></span>Live
+                  </a>
+                  <a href="https://github.com/CocoCommits/ProductVision/blob/vision_integ_branch/NeeshSecrets/NeeshSecrets.md" target="_blank" rel="noopener noreferrer" class="pill" aria-label="NEESHSECRETS on GitHub (opens new tab)">
+                    <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    GitHub
+                  </a>
+                </div>
+                <button class="rmb" onclick="toggleCard(this)" aria-expanded="false">Read more <span class="chev">↓</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="card-mets">
+            <span class="met-chip"><span class="i-em">🔐</span><i class="ti ti-lock i-ti"></i> <b>Zero-Knowledge</b></span>
+            <span class="met-chip"><span class="i-em">👨‍👩‍👧</span><i class="ti ti-users-group i-ti"></i> <b>Two-Key Inheritance</b></span>
+            <span class="met-chip"><span class="i-em">🔍</span><i class="ti ti-search i-ti"></i> <b>Client-Side Search</b></span>
+            <span class="met-chip"><span class="i-em">☁</span><i class="ti ti-cloud-off i-ti"></i> <b>Zero Cloud Storage</b></span>
+            <span class="met-chip"><span class="i-em">⏱</span><i class="ti ti-clock i-ti"></i> <b>2-Second Reveal</b></span>
+            <span class="met-chip"><span class="i-em">🛡️</span><i class="ti ti-shield i-ti"></i> <b>Full Threat Model</b></span>
+          </div>
+          <div class="card-det">
+            <div class="card-det-i">
+              <div class="det-g">
+                <div class="det-media">
+                  <div class="stack-v" id="sv-secrets" tabindex="0" role="img" aria-label="NEESHSECRETS screenshots: press Enter or click to advance">
+                    <div class="s-card"><img src="assets/dark/secrets_01_list.jpg" data-light="assets/light/secrets_01_login.jpg" data-dark="assets/dark/secrets_01_list.jpg" alt="NEESHSECRETS vault list" loading="lazy"></div>
+                    <div class="s-card"><img src="assets/dark/secrets_02_detail.jpg" data-light="assets/light/secrets_02_search.jpg" data-dark="assets/dark/secrets_02_detail.jpg" alt="NEESHSECRETS detail view" loading="lazy"></div>
+                    <button class="s-arr s-arr-l" onclick="prevStack('secrets'); event.stopPropagation();" aria-label="Previous screenshot">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <button class="s-arr s-arr-r" onclick="advStack('secrets'); event.stopPropagation();" aria-label="Next screenshot">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                  </div>
+                  <div class="s-dots" id="sd-secrets" aria-label="Screenshot navigation">
+                    <button class="s-dot on" onclick="goSlide('secrets',0)" aria-label="Screenshot 1"></button>
+                    <button class="s-dot"    onclick="goSlide('secrets',1)" aria-label="Screenshot 2"></button>
+                  </div>
+                </div>
+                <div class="det-copy">
+                  <ul class="det-buls">
+                    <li>AES-256-GCM encryption in browser via WebCrypto API; PBKDF2-SHA256 at 600k iterations per NIST SP 800-132 guidance; AES key created with <code>extractable: false</code> so it cannot be read back into JS by code, extensions, or DevTools</li>
+                    <li>Both entry labels and values encrypted; server stores user ID, entry ID, and ciphertext blobs only; full DB compromise exposes nothing readable</li>
+                    <li>Client-side search: all labels decrypted into browser memory on login; search filters locally; no query ever leaves the browser</li>
+                    <li>2-second reveal: sensitive fields decrypted on click, shown for 2 seconds, then DOM cleared and source ArrayBuffer zeroed with <code>Uint8Array.fill(0)</code></li>
+                    <li>Nominee inheritance: two-key gate (6-word diceware passphrase shared out-of-band plus server secret released after inactivity threshold plus 72h grace); owner login during grace auto-cancels; 30-day cooldown on attempts</li>
+                    <li>Password change is atomic re-encryption: browser decrypts all entries with old key, re-encrypts with new key, submits in a single DB transaction; all-or-nothing</li>
+                    <li>Threat model covers: DB compromise, XSS, session hijacking, username enumeration (HMAC-derived fake salt), rate limiting (5 attempts/15 min/IP), Shadow DOM wrapping password input with randomised name/id per page load</li>
+                    <li>Self-hosted on BeagleBone AI-64; single Python process (FastAPI + APScheduler + SQLite WAL); weekly encrypted backup to Google Drive</li>
+                  </ul>
+                  <button class="close-btn" onclick="closeCard(this)">Close ↑</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /proj-g personal -->
+    </div>
+  </section>
+
+  <!-- ═══════════ BAJAJ FINSERV WORK ═══════════ -->
+  <section id="projects" aria-label="Work at Bajaj Finserv" style="padding-top:48px">
+    <div class="wrap">
+      <h2 class="h2">Professional Experience</h2>
+      <div class="proj-g">
+
+        <!-- Card 3: Unified Enterprise Platform -->
+        <article class="card">
+          <div class="card-row">
+            <div class="card-vis">
+              <div class="card-banner-v" role="img" aria-label="Bajaj Finserv Platform Modernization">
+                <div class="cb-text"><div class="cb-co">Bajaj Finserv</div><div class="cb-title">Platform Modernization</div></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-tags"><span class="pill">Enterprise</span><span class="pill">Platform</span><span class="pill">0-to-1</span></div>
+                <span class="card-co">2025–Present</span>
+              </div>
+              <h3 class="card-title">Unified Enterprise Platform</h3>
+              <ul class="card-buls">
+                <li>Consolidating 40+ fragmented internal tools into a single platform for 100,000+ employees; no shared foundation existed before this</li>
+                <li>Discovery mapped redundancies across business units; REST API contracts and canonical data models defined across product tribes</li>
+                <li>Roadmap built from usage analytics and SLA data; sign-off aligned across tribes before committing to delivery scope</li>
+              </ul>
+              <div class="card-foot">
+                <div></div>
+                <button class="rmb" onclick="toggleCard(this)" aria-expanded="false">Read more <span class="chev">↓</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="card-mets">
+            <span class="met-chip"><span class="i-em">📱</span><i class="ti ti-device-mobile i-ti"></i> <b>40+ Apps</b></span>
+            <span class="met-chip"><span class="i-em">👥</span><i class="ti ti-users i-ti"></i> <b>100K+ Users</b></span>
+            <span class="met-chip"><span class="i-em">📈</span><i class="ti ti-trending-up i-ti"></i> <b>25%+ SLA Improvement</b></span>
+          </div>
+          <div class="card-det">
+            <div class="card-det-i">
+              <ul class="det-buls">
+                <li>Ran discovery across 40+ legacy enterprise apps to identify what to consolidate and what to build as shared services</li>
+                <li>Defined REST API contracts and canonical data models for the unified platform architecture</li>
+                <li>Built the product roadmap from usage analytics and SLA dashboards; aligned stakeholders across product tribes</li>
+                <li>Coordinating delivery with engineering leads across multiple tribes toward a unified launch</li>
+              </ul>
+              <button class="close-btn" onclick="closeCard(this)">Close ↑</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4: Co-Lending Partner Platform -->
+        <article class="card">
+          <div class="card-row">
+            <div class="card-vis">
+              <div class="card-banner-v" role="img" aria-label="Bajaj Finserv Co-Lending Platform">
+                <div class="cb-text"><div class="cb-co">Bajaj Finserv</div><div class="cb-title">Co-Lending &amp; Partnerships</div></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-tags"><span class="pill">API Platform</span><span class="pill">Regulated FinTech</span><span class="pill">B2B</span></div>
+                <span class="card-co">2024–2025</span>
+              </div>
+              <h3 class="card-title">Strategic Co-Lending &amp; Partner Platform</h3>
+              <ul class="card-buls">
+                <li>Built the full integration framework for 4 regulated NBFC partners: REST contract governance, staged KYC gate, and compliance checkpoints at every onboarding step</li>
+                <li>Standardised playbooks cut partner onboarding from 8 weeks to under 5</li>
+                <li>Zero regulatory escalations across all active integrations; maintained through proactive compliance reviews and clean audit trails</li>
+              </ul>
+              <div class="card-foot">
+                <div></div>
+                <button class="rmb" onclick="toggleCard(this)" aria-expanded="false">Read more <span class="chev">↓</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="card-mets">
+            <span class="met-chip"><span class="i-em">⚡</span><i class="ti ti-bolt i-ti"></i> <b>40% Faster Onboarding</b></span>
+            <span class="met-chip"><span class="i-em">🛠</span><i class="ti ti-tool i-ti"></i> <b>60% Less Engineering Effort</b></span>
+            <span class="met-chip"><span class="i-em">✅</span><i class="ti ti-circle-check i-ti"></i> <b>Zero Escalations</b></span>
+          </div>
+          <div class="card-det">
+            <div class="card-det-i">
+              <ul class="det-buls">
+                <li>Owned the full API contract lifecycle: spec authoring, versioning, and change management across 4 regulated NBFC partners</li>
+                <li>Designed a KYC gate framework with graduated compliance checkpoints: spec review, sandbox, compliance sign-off</li>
+                <li>Cut partner onboarding from ~8 weeks to under 5 weeks via standardised integration playbooks</li>
+                <li>Zero regulatory escalations; maintained this through proactive compliance reviews and clean audit trails</li>
+                <li>Worked closely with legal, risk, and compliance to stay within NBFC co-lending guidelines</li>
+              </ul>
+              <button class="close-btn" onclick="closeCard(this)">Close ↑</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 5: Device Financing -->
+        <article class="card">
+          <div class="card-row">
+            <div class="card-vis">
+              <div class="card-banner-v" role="img" aria-label="Bajaj Finserv Device Financing">
+                <div class="cb-text"><div class="cb-co">Bajaj Finserv</div><div class="cb-title">Device Financing</div></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-tags"><span class="pill">Lending</span><span class="pill">Risk</span><span class="pill">0-to-1</span></div>
+                <span class="card-co">2023–2024</span>
+              </div>
+              <h3 class="card-title">Device Financing: 0-to-1 Product</h3>
+              <ul class="card-buls">
+                <li>Built from scratch: CIBIL-based underwriting with three approval tiers; MDM enforcement graduates at DPD 30 (soft lock) and DPD 60 (hard lock)</li>
+                <li>60% NPA reduction in the device portfolio within 6 months of launch</li>
+                <li>Investigation tooling with case management deployed to 300+ store ops teams nationwide</li>
+              </ul>
+              <div class="card-foot">
+                <div></div>
+                <button class="rmb" onclick="toggleCard(this)" aria-expanded="false">Read more <span class="chev">↓</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="card-mets">
+            <span class="met-chip"><span class="i-em">📉</span><i class="ti ti-trending-down i-ti"></i> <b>60% NPA Reduction</b></span>
+            <span class="met-chip"><span class="i-em">🔍</span><i class="ti ti-search i-ti"></i> <b>40% Faster Investigations</b></span>
+            <span class="met-chip"><span class="i-em">📞</span><i class="ti ti-phone i-ti"></i> <b>45% Fewer Escalations</b></span>
+          </div>
+          <div class="card-det">
+            <div class="card-det-i">
+              <ul class="det-buls">
+                <li>Designed the 3-tier CIBIL scoring model from scratch: approve, conditional (MDM controls), and reject</li>
+                <li>MDM enforcement graduated by Days-Past-Due: soft lock at DPD 30, hard lock at DPD 60</li>
+                <li>Built analyst investigation tooling with case management; deployed across 300+ store ops teams nationwide</li>
+                <li>60% NPA reduction in the device financing portfolio within 6 months of launch</li>
+                <li>Coordinated rollout with device OEM partners, NBFC risk teams, and field operations</li>
+              </ul>
+              <button class="close-btn" onclick="closeCard(this)">Close ↑</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 6: Payments Platform -->
+        <article class="card">
+          <div class="card-row">
+            <div class="card-vis">
+              <div class="card-banner-v" role="img" aria-label="Bajaj Finserv Payments Platform">
+                <div class="cb-text"><div class="cb-co">Bajaj Finserv</div><div class="cb-title">Payments Platform</div></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <div class="card-tags"><span class="pill">Consumer Payments</span><span class="pill">Scale</span><span class="pill">UPI</span></div>
+                <span class="card-co">2021–2023</span>
+              </div>
+              <h3 class="card-title">Payments Platform &amp; Checkout Optimization</h3>
+              <ul class="card-buls">
+                <li>Owned UPI, BBPS, wallets, and EMI checkout for 90M+ users; SLA contracts and routing logic across 25+ PSPs including NPCI, Razorpay, and PayU</li>
+                <li>Redesigned routing by payment method and user segment; 25% improvement in authorisation rates</li>
+                <li>Segmentation-based nudge engine for repayment collections: tailored messaging, timing, and channel per cohort; 35% NPS lift</li>
+              </ul>
+              <div class="card-foot">
+                <div></div>
+                <button class="rmb" onclick="toggleCard(this)" aria-expanded="false">Read more <span class="chev">↓</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="card-mets">
+            <span class="met-chip"><span class="i-em">📈</span><i class="ti ti-trending-up i-ti"></i> <b>25% Auth Improvement</b></span>
+            <span class="met-chip"><span class="i-em">⭐</span><i class="ti ti-star i-ti"></i> <b>35% NPS Lift</b></span>
+            <span class="met-chip"><span class="i-em">💳</span><i class="ti ti-credit-card i-ti"></i> <b>10Cr+ Monthly Txns</b></span>
+          </div>
+          <div class="card-det">
+            <div class="card-det-i">
+              <ul class="det-buls">
+                <li>Full ownership of the consumer payments stack: UPI, BBPS, wallets, EMI checkout across 90M+ active users</li>
+                <li>Managed SLA contracts with 25+ payment partners and PSPs including NPCI, Razorpay, and PayU</li>
+                <li>Redesigned routing logic to improve success rates; achieved a 25% authorisation rate improvement</li>
+                <li>Owned NPCI/BBPS regulatory reporting: monthly compliance submissions and audit trail management</li>
+                <li>Built a segmentation-based collections nudge engine; 35% NPS lift in repayment flows</li>
+                <li>Scaled the platform to 10Cr+ monthly transactions at 99.9% uptime</li>
+              </ul>
+              <button class="close-btn" onclick="closeCard(this)">Close ↑</button>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /proj-g -->
+    </div>
+  </section>
+
+  <!-- ═══════════ EXPERIENCE ═══════════ -->
+  <section id="experience" class="exp-bg">
+    <div class="wrap">
+      <h2 class="h2">Journey</h2>
+      <div class="road-tl" role="list" aria-label="Career timeline">
+
+        <div class="road-stop road-stop--r" role="listitem">
+          <div class="road-gap"></div>
+          <div class="road-pin-col"><div class="road-pin cur" aria-label="Current role"></div></div>
+          <div class="road-card">
+            <div class="road-per">May 2025–Present</div>
+            <div class="road-role">Product Manager II · Platform Modernization</div>
+            <div class="road-co">Bajaj Finserv, Bangalore</div>
+          </div>
+        </div>
+
+        <div class="road-stop road-stop--l" role="listitem">
+          <div class="road-card">
+            <div class="road-per">Mar 2024–Apr 2025</div>
+            <div class="road-role">Product Manager II · Co-Lending Platform</div>
+            <div class="road-co">Bajaj Finserv, Pune</div>
+          </div>
+          <div class="road-pin-col"><div class="road-pin"></div></div>
+          <div class="road-gap"></div>
+        </div>
+
+        <div class="road-stop road-stop--r" role="listitem">
+          <div class="road-gap"></div>
+          <div class="road-pin-col"><div class="road-pin"></div></div>
+          <div class="road-card">
+            <div class="road-per">Feb 2023–Feb 2024</div>
+            <div class="road-role">Product Manager II · Device Financing</div>
+            <div class="road-co">Bajaj Finserv, Pune</div>
+          </div>
+        </div>
+
+        <div class="road-stop road-stop--l" role="listitem">
+          <div class="road-card">
+            <div class="road-per">Sep 2021–Jan 2023</div>
+            <div class="road-role">Product Manager · Payments Platform</div>
+            <div class="road-co">Bajaj Finserv, Pune</div>
+          </div>
+          <div class="road-pin-col"><div class="road-pin"></div></div>
+          <div class="road-gap"></div>
+        </div>
+
+        <div class="road-stop road-stop--r" role="listitem">
+          <div class="road-gap"></div>
+          <div class="road-pin-col"><div class="road-pin"></div></div>
+          <div class="road-card">
+            <div class="road-per">Jul 2020–Aug 2021</div>
+            <div class="road-role">Software Engineer → Product Manager</div>
+            <div class="road-co">Bajaj Finserv, Pune</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ ACHIEVEMENTS ═══════════ -->
+  <section style="padding:48px 0">
+    <div class="wrap">
+      <div class="ach-row" role="list">
+        <div class="ach-chip" role="listitem"><span class="ach-ico" aria-hidden="true"><span class="i-em">🏆</span><i class="ti ti-trophy i-ti"></i></span><span>A+ Rating · 3 Consecutive Years</span></div>
+        <div class="ach-chip" role="listitem"><span class="ach-ico" aria-hidden="true"><span class="i-em">🥇</span><i class="ti ti-medal i-ti"></i></span><span>10+ Awards from MD and CTO</span></div>
+        <div class="ach-chip" role="listitem"><span class="ach-ico" aria-hidden="true"><span class="i-em">✈️</span><i class="ti ti-plane i-ti"></i></span><span>Overseas Incentive Award · 60% Above Target</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CONTACT ═══════════ -->
+  <section id="contact" class="contact-bg">
+    <div class="wrap">
+      <h2 class="contact-h">Let's talk.</h2>
+      <p class="contact-sub">Open to PM roles, collaborations, and interesting problems.</p>
+      <div class="contact-cards">
+
+        <div class="contact-card">
+          <div class="ci-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+          </div>
+          <div class="ci-body">
+            <span class="cl-lbl">Email</span>
+            <a href="mailto:nehabendale308@gmail.com" class="cl-val">nehabendale308@gmail.com</a>
+          </div>
+          <button class="copy-btn" onclick="copyEmail(this)" aria-label="Copy email address">
+            <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"/></svg>
+            <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </button>
+        </div>
+
+        <div class="contact-card">
+          <div class="ci-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </div>
+          <div class="ci-body">
+            <span class="cl-lbl">LinkedIn</span>
+            <a href="https://www.linkedin.com/in/nehabendale/" target="_blank" rel="noopener noreferrer" class="cl-val">linkedin.com/in/nehabendale</a>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <div class="ci-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+          </div>
+          <div class="ci-body">
+            <span class="cl-lbl">Location</span>
+            <span class="cl-val" style="color:var(--fg2);cursor:default">Bangalore, India</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="contact-btns">
+        <a href="assets/resume.pdf" target="_blank" class="btn btn-p" style="display:none">Resume</a>
+      </div>
+      <div class="contact-edu">
+        B.Tech Electronics &amp; Telecommunications, COEP Pune<br>
+        Google Cloud: Generative AI Learning Path &nbsp;·&nbsp; IBM AI Product Management
+      </div>
+      <div class="footer">Built by Neha Bendale · 2025</div>
+    </div>
+  </section>
+
+</main><!-- /main -->
+
+
+<!-- ═══════════════════════════ ALL JS ═══════════════════════════ -->
+<script>
+  // ── 0. COPY EMAIL ────────────────────────────────────────────
+  function copyEmail(btn) {
+    navigator.clipboard.writeText('nehabendale308@gmail.com').then(function () {
+      btn.classList.add('copied');
+      setTimeout(function () { btn.classList.remove('copied'); }, 2000);
+    }).catch(function () {
+      var el = document.createElement('textarea');
+      el.value = 'nehabendale308@gmail.com';
+      document.body.appendChild(el); el.select(); document.execCommand('copy');
+      document.body.removeChild(el);
+      btn.classList.add('copied');
+      setTimeout(function () { btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // ── 1. THEME TOGGLE ──────────────────────────────────────────
+  var tog   = document.getElementById('ttog');
+  var thumb = document.getElementById('ttog-thumb');
+
+  function syncTheme() {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    thumb.innerHTML = dark ? '<span class="i-em">☾</span><i class="ti ti-moon i-ti"></i>' : '<span class="i-em">☀</span><i class="ti ti-sun i-ti"></i>';
+    tog.setAttribute('aria-checked', dark ? 'true' : 'false');
+  }
+  syncTheme();
+
+  tog.addEventListener('click', function () {
+    var cur  = document.documentElement.getAttribute('data-theme');
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    syncTheme();
+    swapStackImgs();
+  });
+
+  // ── 2. ICON / EMOJI TOGGLE ───────────────────────────────────
+  var itog   = document.getElementById('itog');
+  var ithumb = document.getElementById('itog-thumb');
+
+  function syncIcons() {
+    var tabler = document.documentElement.getAttribute('data-icons') === 'tabler';
+    ithumb.textContent = tabler ? '⊞' : '☺';
+    itog.setAttribute('aria-checked', tabler ? 'true' : 'false');
+  }
+  syncIcons();
+
+  itog.addEventListener('click', function () {
+    var cur  = document.documentElement.getAttribute('data-icons');
+    var next = cur === 'tabler' ? 'emoji' : 'tabler';
+    document.documentElement.setAttribute('data-icons', next);
+    localStorage.setItem('iconMode', next);
+    syncIcons();
+  });
+
+  // ── 3. NAV SCROLL BLUR ───────────────────────────────────────
+  var nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', function () {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  // ── 3. HAMBURGER / OVERLAY ───────────────────────────────────
+  var ham = document.getElementById('ham');
+  var ov  = document.getElementById('ov');
+  var ovc = document.getElementById('ovClose');
+
+  function openNav()  {
+    ov.classList.add('open');
+    ham.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeNav() {
+    ov.classList.remove('open');
+    ham.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  ham.addEventListener('click', openNav);
+  ovc.addEventListener('click', closeNav);
+  ov.addEventListener('click', function (e) { if (e.target === ov) closeNav(); });
+  ov.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeNav); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && ov.classList.contains('open')) closeNav();
+  });
+
+  // ── 4. SMOOTH SCROLL (offset for sticky nav) ─────────────────
+  document.querySelectorAll('a[href^="#"]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      var h = el.getAttribute('href');
+      if (h === '#') return;
+      var t = document.querySelector(h);
+      if (!t) return;
+      e.preventDefault();
+      var top = t.getBoundingClientRect().top + window.scrollY - 72;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+
+  // ── 5. COUNT-UP ANIMATION ────────────────────────────────────
+  var done = new Set();
+
+  function animCount(el) {
+    if (done.has(el)) return;
+    done.add(el);
+    var tgt = parseFloat(el.dataset.target);
+    var sfx = el.dataset.suffix || '';
+    var dec = el.dataset.dec === '1';
+    var steps = 60; var ms = 1200 / steps; var cur = 0; var inc = tgt / steps;
+    var id = setInterval(function () {
+      cur += inc;
+      if (cur >= tgt) { cur = tgt; clearInterval(id); }
+      el.textContent = (dec ? cur.toFixed(1) : Math.round(cur)) + sfx;
+    }, ms);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) animCount(e.target); });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.impact-n[data-target]').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.impact-n[data-target]').forEach(function (el) {
+      el.textContent = el.dataset.target + (el.dataset.suffix || '');
+    });
+  }
+
+  // ── 5b. TILE ENTRANCE ANIMATION ─────────────────────────────
+  (function () {
+    var tileObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('.met-chip').forEach(function (c, i) {
+          setTimeout(function () { c.classList.add('tile-vis'); }, i * 110);
+        });
+        tileObs.unobserve(e.target);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.card-mets').forEach(function (el) { tileObs.observe(el); });
+  }());
+
+  // ── 6. CARD EXPAND / COLLAPSE ────────────────────────────────
+  function toggleCard(btn) {
+    var card = btn.closest('.card');
+    var det  = card.querySelector('.card-det');
+    var open = det.classList.contains('open');
+
+    det.classList.toggle('open', !open);
+    btn.classList.toggle('open', !open);
+    btn.setAttribute('aria-expanded', String(!open));
+
+    if (!open) {
+      // init stack if present
+      var sv = det.querySelector('.stack-v');
+      if (sv) { renderStack(sv.id.replace('sv-', '')); swapStackImgs(); }
+      // nudge card into view after transition
+      setTimeout(function () {
+        var r = card.getBoundingClientRect();
+        if (r.bottom > window.innerHeight) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 460);
+    }
+  }
+
+  function closeCard(closeBtn) {
+    var card = closeBtn.closest('.card');
+    var det  = card.querySelector('.card-det');
+    var rmb  = card.querySelector('.rmb');
+    det.classList.remove('open');
+    if (rmb) { rmb.classList.remove('open'); rmb.setAttribute('aria-expanded', 'false'); }
+  }
+
+  // ── 7. STACKED SCREENSHOT VIEWER ─────────────────────────────
+  var stacks = {
+    neesh:   { cur: 0, tot: 5 },
+    secrets: { cur: 0, tot: 2 }
+  };
+
+  function renderStack(id) {
+    var el = document.getElementById('sv-' + id);
+    if (!el) return;
+    var cards = el.querySelectorAll('.s-card');
+    var tot   = cards.length;
+    var cur   = stacks[id].cur;
+
+    cards.forEach(function (c, i) {
+      var off = (i - cur + tot) % tot;
+      if      (off === 0) { c.style.cssText = 'transform:translateY(0) scale(1);z-index:' + tot + ';opacity:1'; }
+      else if (off === 1) { c.style.cssText = 'transform:translateY(6px) scale(0.97);z-index:' + (tot-1) + ';opacity:.7'; }
+      else if (off === 2) { c.style.cssText = 'transform:translateY(12px) scale(0.94);z-index:' + (tot-2) + ';opacity:.4'; }
+      else                { c.style.cssText = 'transform:translateY(18px) scale(0.91);z-index:1;opacity:0'; }
+    });
+
+    document.querySelectorAll('#sd-' + id + ' .s-dot').forEach(function (d, i) {
+      d.classList.toggle('on', i === cur);
+    });
+  }
+
+  function advStack(id) {
+    stacks[id].cur = (stacks[id].cur + 1) % stacks[id].tot;
+    renderStack(id);
+  }
+
+  function prevStack(id) {
+    stacks[id].cur = (stacks[id].cur - 1 + stacks[id].tot) % stacks[id].tot;
+    renderStack(id);
+  }
+
+  function goSlide(id, idx) {
+    stacks[id].cur = idx;
+    renderStack(id);
+  }
+
+  // Click to advance (not on dot buttons)
+  document.querySelectorAll('.stack-v').forEach(function (el) {
+    var id = el.id.replace('sv-', '');
+    el.addEventListener('click', function (e) {
+      if (e.target.classList.contains('s-dot')) return;
+      advStack(id);
+    });
+    // Keyboard: Enter / Space
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); advStack(id); }
+    });
+    // Touch swipe
+    var tx = 0;
+    el.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; }, { passive: true });
+    el.addEventListener('touchend',   function (e) {
+      if (Math.abs(tx - e.changedTouches[0].clientX) > 40) advStack(id);
+    }, { passive: true });
+  });
+
+  // Swap screenshot src on theme change (covers stack viewer + card thumbs)
+  function swapStackImgs() {
+    var t = document.documentElement.getAttribute('data-theme');
+    document.querySelectorAll('.s-card img, .card-thumb').forEach(function (img) {
+      var src = t === 'dark' ? img.dataset.dark : img.dataset.light;
+      if (src) img.src = src;
+    });
+  }
+  swapStackImgs(); // apply correct theme image on initial load
+
+  // ── 9. ACTIVE NAV SECTION TRACKING ──────────────────────────
+  var navSections = ['about', 'skills', 'personal', 'projects', 'experience', 'contact'];
+  var navLinks    = document.querySelectorAll('.nav-links a[href^="#"]');
+
+  function updateActiveNav() {
+    var scrollY = window.scrollY + 80;
+    var active  = navSections[0];
+    navSections.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && el.offsetTop <= scrollY) active = id;
+    });
+    navLinks.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + active);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+
+  // ── 10. TIMELINE PAIRED CARD HEIGHT EQUALIZATION ──────────────────
+  function eqTimelineCards() {
+    var stops = document.querySelectorAll('.road-stop');
+    for (var i = 0; i + 1 < stops.length; i += 2) {
+      var a = stops[i].querySelector('.road-card');
+      var b = stops[i + 1].querySelector('.road-card');
+      if (!a || !b) continue;
+      a.style.minHeight = b.style.minHeight = '';
+      var h = Math.max(a.offsetHeight, b.offsetHeight);
+      a.style.minHeight = b.style.minHeight = h + 'px';
+    }
+  }
+  eqTimelineCards();
+  window.addEventListener('resize', eqTimelineCards);
+
+</script>
+
+</body>
+</html>
