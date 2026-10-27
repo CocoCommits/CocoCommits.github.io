@@ -1,0 +1,313 @@
+﻿PRD — Netflix: Recommended by Friends
+1. Product Overview
+Feature: Recommended by Friends
+Platform: Netflix
+Target segment: Indian Netflix users aged 60–80
+Initial scope: Mobile & Tablet
+Product Idea
+Focus on social recommendations by improving the SHARE experience.
+The goal is to make it easier for users to discover content through recommendations from people they know and trust, without requiring them to switch between Netflix and external communication platforms.
+________________
+
+
+2. Motivation
+Senior citizens can have strong social circles and frequently discuss movies, TV shows, and other content with friends and family.
+Today, recommendations can happen across multiple platforms.
+For example:
+Neha watches a movie and shares it with Yogesh on WhatsApp. Yogesh will only discover the recommendation when he opens WhatsApp, finds the message, and clicks the Netflix link.
+This creates a fragmented discovery journey:
+Friend recommends → External platform → User discovers message → Clicks link → Netflix → Starts watching
+The recommendation is therefore dependent on the user accessing another platform.
+Opportunity
+What if Netflix could surface recommendations from friends inside Netflix itself?
+When Yogesh opens Netflix, he could see:
+Recommended by Friends
+This creates a seamless journey:
+Friend recommends → Netflix → Recommended by Friends → Watch
+The objective isn't to turn Netflix into a social network. The objective is to make trusted social recommendations an integrated part of content discovery.
+________________
+
+
+3. Problem Statement
+Netflix provides algorithmic recommendations, but users may also rely on recommendations from people they personally know.
+Currently, these recommendations are fragmented across WhatsApp, SMS, phone calls, and other channels.
+This can lead to:
+* Recommendations being missed
+* Users switching between apps
+* Additional effort to search for the recommended title
+* Increased decision-making time
+* Lost opportunities for content discovery
+Core Problem
+Users need a simple way to discover and act on content recommended by friends and family without having to search across different platforms.
+________________
+
+
+4. Target Users
+Primary Segment
+Indian Netflix users aged 60–80
+Common characteristics:
+* Moderate technology literacy
+* May use smartphones/tablets primarily for WhatsApp, YouTube and basic applications
+* Prefer simple and familiar interfaces
+* May rely on friends/family for content recommendations
+* May have strong preferences for regional-language or familiar content
+Example Personas
+Jayant, 62 — The Quick Viewer
+* Watches a variety of content
+* Fast-forwards parts he considers boring
+* Wants to understand the storyline quickly
+* Values recommendations that help him decide what is worth watching
+Rajini, 72 — The Familiar Content Viewer
+* Enjoys spiritual and light-hearted content
+* Prefers regional-language content
+* Often discovers content through people she knows
+Simran, 80 — The Explorer
+* Loves travelling and adventure
+* Watches thriller, adventure and romance
+* Enjoys discovering new types of content
+________________
+
+
+5. User Hypothesis
+If users can easily share Netflix content with friends and see recommendations from friends directly inside Netflix, they will discover relevant content faster and be more likely to start watching it.
+________________
+
+
+6. User Journey — Current vs Proposed
+Current Experience
+Neha watches a movie
+↓
+Shares Netflix link with Yogesh on WhatsApp
+↓
+Yogesh has to open WhatsApp
+↓
+Find the recommendation
+↓
+Click the Netflix link
+↓
+Netflix opens
+↓
+Yogesh watches
+Proposed Experience
+Neha watches a movie
+↓
+Share → Share with Friends
+↓
+Yogesh receives recommendation
+↓
+Yogesh opens Netflix
+↓
+Recommended by Friends
+↓
+Sees movie recommended by Neha
+↓
+Watch
+This removes unnecessary friction from the discovery journey.
+________________
+
+
+7. Proposed Solution
+A. Share with Friends
+Enhance the existing Share experience.
+When a user is watching or viewing the details of a title:
+Share → Share with Friends → Select Friend/Group → Send
+The user can optionally add a message.
+Example:
+Neha recommended
+The Intern
+“You might enjoy this!”
+Share placement
+The feature should also be easily discoverable near existing engagement actions such as:
+👍 Thumbs Up | 👎 Thumbs Down | Share with Friends
+This increases visibility without introducing a completely new interaction pattern.
+________________
+
+
+8. Recommended by Friends
+Introduce a new section on the Netflix Home page:
+Recommended by Friends
+This section appears when the user has received at least one recommendation.
+Each recommendation could display:
+The Intern
+Recommended by Neha
+▶ Watch
+If multiple recommendations exist, users can browse them in the same familiar Netflix content-card format.
+Important principle
+The section should be contextual rather than permanently occupying homepage space.
+If there are no recommendations, the section does not need to appear.
+________________
+
+
+User Context / Design Considerations
+1. Primary viewing device — TV
+Senior citizens are likely to consume Netflix primarily on TV, with a smaller proportion using mobile or laptop devices. Therefore, the sharing experience needs to work particularly well with a TV remote, where navigating through multiple menus can create significant friction.
+Rather than requiring users to navigate:
+Title → More Options → Share → Share with Friends → Select Group
+the recommended interaction is:
+👍 Thumbs Up | 👎 Thumbs Down | 👥 Share with Friends
+With one click on “Share with Friends”, the user should only need to select the relevant group.
+Design principle: Minimize navigation steps because every additional interaction on a TV remote increases friction.
+________________
+2. Simple, low-cognitive-load UX
+The experience should be designed specifically for the needs of older users, including users who may have visual limitations, lower technology familiarity, or difficulty adapting to complex interfaces.
+The UI should therefore prioritize:
+* Large, clearly identifiable controls
+* High readability and strong visual hierarchy
+* Minimal number of steps
+* Simple and familiar terminology
+* Large touch/remote-selection targets
+* Clear confirmation after an action
+* Avoiding unnecessary pop-ups, menus and choices
+* Consistent placement of the Share action
+* Zero/near-zero cognitive load for the core journey
+The ideal journey should be:
+Click Share with Friends → Select Group → Done
+rather than requiring the user to understand a new social workflow.
+Design Principle
+For senior users, simplicity is not a nice-to-have; it is a core product requirement.
+9. Friends / Groups
+Users can create a Friends/Family group for sharing recommendations.
+Example:
+Family Group
+Members:
+* Neha
+* Yogesh
+* Rajini
+* Simran
+When sharing:
+Share with Friends → Select Group → Send
+If the user belongs to multiple groups:
+Select Group ▼
+This allows recommendations to remain relevant to different social circles.
+Examples:
+* Family
+* College Friends
+* Neighbourhood Friends
+* Travel Friends
+________________
+
+
+10. Privacy
+Social viewing should always be opt-in.
+Watching a title should not automatically notify friends.
+When a user starts watching a title, Netflix can provide an optional action:
+Want to share this with your friends?
+If selected:
+Select Group ▼ → Share
+This can also be positioned alongside:
+👍 | 👎 | Share with Friends
+Privacy principles
+* Sharing is explicit
+* Watching does not automatically mean sharing
+* User chooses the recipient/group
+* Users can leave groups
+* Users can mute recommendations
+* No public viewing activity
+________________
+
+
+11. Future Opportunity
+Once the recommendation-sharing behaviour is established, Netflix could introduce:
+What Your Friends Are Watching
+This could show content currently being watched by members of a user's friend/family group.
+However, this should be treated as a future feature, not part of the MVP.
+Why?
+There is an important distinction:
+Recommended by Friends
+= Explicit user action
+vs.
+What Friends Are Watching
+= Passive viewing activity
+The second feature introduces significantly greater privacy considerations.
+Therefore, it should only be introduced with explicit user consent.
+For example:
+Let your friends know you're watching this?
+Yes / No
+________________
+
+
+12. Goals
+User Goals
+* Discover relevant content faster
+* Reduce the effort required to decide what to watch
+* Easily share interesting content
+* Discover content recommended by trusted people
+* Avoid switching between Netflix and communication apps
+Business Goals
+* Increase content discovery
+* Increase content starts
+* Increase engagement/session activity
+* Increase repeat Netflix usage
+* Improve user stickiness
+________________
+
+
+13. MVP
+The MVP will focus only on the core social recommendation loop:
+MVP
+1. Share with Friends
+2. Friend/Family Groups
+3. Recommended by Friends section
+4. Explicit privacy controls
+Not part of MVP
+* What Friends Are Watching
+* Public profiles
+* Comments
+* Social feed
+* Likes between friends
+* Automatic viewing-status sharing
+* Entire Netflix UI redesign
+* New content categories
+________________
+
+
+14. Success Metrics
+Primary Metric
+Recommendation → Watch Conversion
+% of friend recommendations that result in the recipient starting the recommended title.
+Product Metrics
+Share adoption
+Share with Friends clicks / Total Share interactions
+Recommendation engagement
+% of received recommendations opened
+Recommendation conversion
+% of recommendations that result in a content start
+Time to watch
+Median time between receiving a recommendation and starting the title
+Repeat usage
+% of users who send/receive recommendations more than once
+Business Metrics
+* Content starts per active user
+* Watch time per active user
+* Session frequency
+* 7/30-day retention
+* Browsing abandonment
+Guardrail Metrics
+* Recommendation mute rate
+* Group abandonment
+* Spam/report rate
+* Privacy complaints
+* Change in overall Netflix engagement
+________________
+
+
+15. Experimentation
+Run an A/B test.
+Control
+Existing Netflix experience.
+Treatment
+Existing Netflix experience + Share with Friends + Recommended by Friends
+Compare:
+Content discovery → Recommendation engagement → Content start → Watch behaviour
+The key question to validate:
+Does adding trusted social recommendations help users find and start content more effectively?
+________________
+
+
+16. Product Success Definition
+The feature will be considered successful if it demonstrates that trusted recommendations reduce discovery friction and increase content starts, while maintaining user privacy and not negatively affecting the existing Netflix experience.
+________________
+
+
+Core Product Bet
+Netflix doesn't need to become a social network. It needs to make trusted recommendations easier to discover and act on.

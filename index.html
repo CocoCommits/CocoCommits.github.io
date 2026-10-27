@@ -25,7 +25,8 @@
   <!-- Google Fonts: Latin subset only, display=swap for perf -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"></noscript>
 
   <style>
   /* === ICON MODE SWITCH ===================================================
@@ -707,6 +708,71 @@
     .footer { font-size: 13px; color: var(--fg3); padding-top: 24px; border-top: 1px solid var(--bdr); }
 
     /* ─────────────────────────────────────────────────────────────────
+       PRODUCT TEARDOWNS
+    ───────────────────────────────────────────────────────────────── */
+    .cs-bg { background: var(--bg2); }
+    .cs-grid {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 20px;
+    }
+    .cs-card {
+      position: relative;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      width: 240px; min-height: 150px; padding: 30px 20px 22px;
+      background: var(--bg); border: 1.5px solid var(--bdr); border-radius: 16px;
+      box-shadow: 0 2px 8px var(--sh);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, opacity .25s ease;
+    }
+    .cs-card:hover, .cs-card:focus-visible {
+      transform: translateY(-8px) scale(1.06); z-index: 5;
+      border-color: var(--halo-color);
+      box-shadow:
+        0 0 0 3px color-mix(in srgb, var(--halo-color) 45%, transparent),
+        0 0 26px 6px color-mix(in srgb, var(--halo-color) 32%, transparent),
+        0 20px 40px var(--sh2);
+    }
+    /* Spotlight: dim siblings while one card is hovered or focused */
+    .cs-grid:has(.cs-card:hover) .cs-card:not(:hover),
+    .cs-grid:has(.cs-card:focus-visible) .cs-card:not(:focus-visible) { opacity: .45; }
+    .cs-logo { display: flex; align-items: center; justify-content: center; width: 100%; height: 56px; }
+    .cs-logo img { max-height: 52px; max-width: 82%; width: auto; height: auto; object-fit: contain; }
+    /* Square app-icon logos (full-bleed background) shown as rounded tiles */
+    .cs-ico { border-radius: 12px; max-width: 52px !important; }
+    .cs-name {
+      margin-top: 14px; font-size: 13px; font-weight: 600;
+      letter-spacing: .02em; color: var(--fg3); text-align: center;
+      transition: color .2s;
+    }
+    .cs-card:hover .cs-name, .cs-card:focus-visible .cs-name { color: var(--acc); }
+    .cs-tip {
+      position: absolute; bottom: calc(100% + 14px); left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      width: 270px; padding: 14px 16px; border-radius: 12px;
+      background: var(--fg); color: var(--bg);
+      box-shadow: 0 12px 32px var(--sh2);
+      font-size: 12.5px; line-height: 1.55; text-align: left;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 20;
+    }
+    .cs-tip::after {
+      content: ''; position: absolute; top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 7px solid transparent; border-top-color: var(--fg); border-bottom: none;
+    }
+    .cs-tip b {
+      display: block; margin-bottom: 4px; font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em; opacity: .7;
+    }
+    .cs-tip i { display: inline-block; margin-top: 8px; font-style: normal; font-size: 11.5px; font-weight: 600; color: var(--halo-color); }
+    .cs-card:hover .cs-tip, .cs-card:focus-visible .cs-tip {
+      opacity: 1; transform: translateX(-50%) translateY(0);
+    }
+    /* Touch devices have no hover: tooltips hidden, tap opens the deck directly */
+    @media (hover: none) { .cs-tip { display: none; } }
+
+    /* ─────────────────────────────────────────────────────────────────
        RESPONSIVE — TABLET (768–1023)
     ───────────────────────────────────────────────────────────────── */
     @media (min-width: 768px) and (max-width: 1023px) {
@@ -714,6 +780,7 @@
       .hero-name { font-size: 44px; }
       .profile-img, .profile-init { width: 220px; height: 275px; font-size: 64px; }
       .photo-wrap::before { width: 310px; height: 390px; }
+      .cs-card { width: 300px; }
     }
 
     /* ─────────────────────────────────────────────────────────────────
@@ -750,6 +817,14 @@
       .sk-ico { font-size: 22px; }
       .sk-cat { font-size: 13px; }
       .skill-pills { gap: 6px; }
+
+      /* Teardowns: compact 2-col grid */
+      .cs-grid { gap: 12px; }
+      .cs-card { width: calc(50% - 6px); min-height: 116px; padding: 20px 10px 14px; }
+      .cs-logo { height: 44px; }
+      .cs-logo img { max-height: 40px; }
+      .cs-ico { border-radius: 10px; max-width: 40px !important; }
+      .cs-name { margin-top: 10px; font-size: 12px; }
 
       /* Projects: vertical stack, seamless scroll */
       .proj-g { grid-template-columns: 1fr; gap: 16px; }
@@ -811,7 +886,8 @@
       .hero-live { flex-direction: column; align-items: flex-start; gap: 8px; }
     }
   </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.44.0/dist/tabler-icons.min.css">
+  <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.44.0/dist/tabler-icons.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.44.0/dist/tabler-icons.min.css"></noscript>
 </head>
 <body>
 
@@ -823,6 +899,7 @@
   <a href="#about">About</a>
   <a href="#skills">Skills</a>
   <a href="#personal">Independent Projects</a>
+  <a href="#teardowns">Product Teardowns</a>
   <a href="#projects">Professional Experience</a>
   <a href="#experience">Journey</a>
   <a href="#contact">Let's Connect</a>
@@ -838,6 +915,7 @@
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#personal">Independent Projects</a></li>
+        <li><a href="#teardowns">Product Teardowns</a></li>
         <li><a href="#projects">Professional Experience</a></li>
         <li><a href="#experience">Journey</a></li>
         <li><a href="#contact">Let's Connect</a></li>
@@ -1132,6 +1210,56 @@
         </article>
 
       </div><!-- /proj-g personal -->
+    </div>
+  </section>
+
+  <!-- ═══════════ PRODUCT TEARDOWNS ═══════════ -->
+  <section class="cs-bg" id="teardowns" aria-label="Product teardowns">
+    <div class="wrap">
+      <h2 class="h2">Product Teardowns</h2>
+      <div class="cs-grid">
+
+        <a class="cs-card" href="CaseStudies/Rapido_Product_Design/Rapido_Feature_Teardown.html" target="_blank" rel="noopener noreferrer" aria-label="Rapido feature teardown (opens new tab)">
+          <span class="cs-logo"><img src="assets/logos/rapido.svg" alt="" loading="lazy" decoding="async"></span>
+          <span class="cs-name">Rapido</span>
+          <span class="cs-tip" aria-hidden="true">
+            <b>Feature Teardown</b>
+            Teardown of the bike-taxi booking experience: feature selection, user segments and personas, problem framing, and a scored solution analysis with business impact.
+            <i>Open deck ↗</i>
+          </span>
+        </a>
+
+        <a class="cs-card" href="CaseStudies/Groww_Search_Improvements/GrowwAIAssistant_SlideDeck.html" target="_blank" rel="noopener noreferrer" aria-label="Groww search improvements and AI assistant (opens new tab)">
+          <span class="cs-logo"><img src="assets/logos/groww.png" alt="" loading="lazy" decoding="async"></span>
+          <span class="cs-name">Groww</span>
+          <span class="cs-tip" aria-hidden="true">
+            <b>Search & AI Assistant</b>
+            From investment decision-gap analysis to a phased AI assistant roadmap: real-world search teardown, opportunity solution tree, and RICE prioritization.
+            <i>Open deck ↗</i>
+          </span>
+        </a>
+
+        <a class="cs-card" href="CaseStudies/Netflix_Product_Design/Netflix_Improvemens_for_Elderly.html" target="_blank" rel="noopener noreferrer" aria-label="Netflix product design for elderly users (opens new tab)">
+          <span class="cs-logo"><img src="assets/logos/netflix.svg" alt="" loading="lazy" decoding="async"></span>
+          <span class="cs-name">Netflix</span>
+          <span class="cs-tip" aria-hidden="true">
+            <b>Product Design · Accessibility</b>
+            Making Netflix usable for elderly viewers: accessibility journey, proposed UX and design principles, privacy safeguards, MVP scope, and success metrics.
+            <i>Open deck ↗</i>
+          </span>
+        </a>
+
+        <a class="cs-card" href="CaseStudies/DineOut_ProductTeardown/Dineout_Product_Teardown.html" target="_blank" rel="noopener noreferrer" aria-label="Swiggy Dineout funnel teardown (opens new tab)">
+          <span class="cs-logo"><img src="assets/logos/dineout.png" alt="" loading="lazy" decoding="async" class="cs-ico"></span>
+          <span class="cs-name">Dineout</span>
+          <span class="cs-tip" aria-hidden="true">
+            <b>Full-Funnel Teardown</b>
+            End-to-end teardown of the Swiggy Dineout booking journey — from Play Store discovery through booking and retention — plus a proposed trending-discovery concept.
+            <i>Open deck ↗</i>
+          </span>
+        </a>
+
+      </div>
     </div>
   </section>
 
@@ -1690,7 +1818,7 @@
   swapStackImgs(); // apply correct theme image on initial load
 
   // ── 9. ACTIVE NAV SECTION TRACKING ──────────────────────────
-  var navSections = ['about', 'skills', 'personal', 'projects', 'experience', 'contact'];
+  var navSections = ['about', 'skills', 'personal', 'teardowns', 'projects', 'experience', 'contact'];
   var navLinks    = document.querySelectorAll('.nav-links a[href^="#"]');
 
   function updateActiveNav() {

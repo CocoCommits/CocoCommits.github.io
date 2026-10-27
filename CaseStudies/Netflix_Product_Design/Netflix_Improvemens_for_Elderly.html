@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Product design case study by Neha Bendale: Recommended by Friends, a social recommendation feature for Netflix.">
+<title>Recommended by Friends · Netflix Product Design · Neha Bendale</title>
+
+<!-- Google Fonts with offline detection: JS swaps to system fonts if these fail -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap"></noscript>
+
+<style>
+/* ── TOKENS (Netflix) ─────────────────────────────────────────────── */
+:root {
+  --bg:   #141414;
+  --bg2:  #1f1f1f;
+  --bg3:  #2a2a2a;
+  --fg:   #ffffff;
+  --fg2:  #d4d4d4;
+  --fg3:  #999999;
+  --acc:  #E50914;
+  --acc-d:#B00610;
+  --bdr:  #333333;
+  --sh:   rgba(0,0,0,.35);
+  --sh2:  rgba(0,0,0,.6);
+  --font-display: 'Bebas Neue', 'Arial Narrow', 'Helvetica Neue', sans-serif;
+  --font-body:    'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+/* Offline fallback: system fonts when webfonts did not load */
+.no-wf {
+  --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.no-wf .disp { letter-spacing: 0 !important; }
+
+/* ── RESET ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: var(--font-body);
+  font-size: 16px; line-height: 1.65;
+  color: var(--fg); background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+ul { list-style: none; }
+a { color: var(--acc); text-decoration: none; transition: color .2s; }
+a:hover { color: #ff222e; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--acc); outline-offset: 3px; border-radius: 3px;
+}
+button { cursor: pointer; font-family: inherit; }
+
+/* ── SKIP LINK ─────────────────────────────────────────────────────── */
+.skip { position: absolute; top: -100px; left: 16px; z-index: 9999;
+  background: var(--acc); color: #fff; padding: 8px 16px;
+  border-radius: 0 0 8px 8px; font-size: 14px; font-weight: 500;
+  transition: top .2s; }
+.skip:focus { top: 0; }
+
+/* ── LAYOUT ────────────────────────────────────────────────────────── */
+.wrap { width: 60vw; max-width: 1400px; margin: 0 auto; }
+section { padding: 88px 0; }
+.lb {
+  display: block; font-size: 12px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--acc); margin-bottom: 12px;
+}
+.h2 {
+  font-family: var(--font-display);
+  font-size: 46px; font-weight: 400; letter-spacing: .02em;
+  color: var(--fg); margin-bottom: 20px; line-height: 1.05;
+}
+.sub { font-size: 17px; color: var(--fg2); max-width: 720px; margin-bottom: 44px; }
+.band { background: var(--bg2); border-top: 1px solid var(--bdr); border-bottom: 1px solid var(--bdr); }
+
+/* ── NAVIGATION (styled after cococommits.github.io) ───────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg); border-bottom: 1px solid var(--bdr);
+  transition: background .25s;
+}
+.nav.scrolled {
+  background: rgba(20,20,20,.88);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+.nav-i {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; width: 60vw; max-width: 1400px; margin: 0 auto;
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 26px; letter-spacing: .04em;
+  color: var(--acc); line-height: 1;
+}
+.nav-logo:hover { color: #ff222e; }
+.nav-logo span { color: var(--fg3); font-family: var(--font-body);
+  font-size: 12px; font-weight: 500; letter-spacing: .06em;
+  text-transform: uppercase; margin-left: 10px; }
+
+.nav-links { display: flex; align-items: center; gap: 18px; }
+.nav-links a {
+  font-size: 13px; font-weight: 500; color: var(--fg2);
+  position: relative; display: inline-flex; align-items: center;
+  height: 64px;
+}
+.nav-links a:hover { color: var(--fg); }
+.nav-links a.active { color: var(--acc); font-weight: 600; }
+.nav-links a::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; height: 100%;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, var(--acc) 0, var(--acc) 2px, transparent 2px),
+    radial-gradient(ellipse 80% 72% at top center,
+      rgba(229,9,20,.16) 0%, transparent 85%);
+  opacity: 0; transition: opacity .3s ease;
+}
+.nav-links a.active::before { opacity: 1; }
+
+.nav-r { display: flex; align-items: center; gap: 12px; }
+.nav-me {
+  font-size: 13px; font-weight: 600; color: #fff;
+  background: var(--acc); padding: 7px 16px; border-radius: 8px;
+  transition: all .2s;
+}
+.nav-me:hover { background: var(--acc-d); color: #fff; transform: translateY(-1px); }
+
+/* Hamburger + mobile overlay */
+.ham { display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; padding: 6px 4px; }
+.ham span { display: block; width: 22px; height: 2px;
+  background: var(--fg); border-radius: 2px; transition: all .2s; }
+.ham[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.ham[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.ham[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.ov {
+  position: fixed; inset: 0; z-index: 200; background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 26px;
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.ov.open { opacity: 1; pointer-events: auto; }
+.ov a { font-family: var(--font-display); font-size: 30px;
+  letter-spacing: .03em; color: var(--fg); }
+.ov a:hover { color: var(--acc); }
+.ov-close { position: absolute; top: 18px; right: 24px;
+  background: none; border: none; font-size: 32px; color: var(--fg);
+  padding: 4px 8px; border-radius: 8px; line-height: 1; }
+.ov-close:hover { color: var(--acc); }
+
+/* ── HERO ──────────────────────────────────────────────────────────── */
+.hero {
+  min-height: 88vh; display: flex; align-items: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 75% 40%, rgba(229,9,20,.22) 0%, transparent 70%),
+    linear-gradient(to bottom, rgba(20,20,20,0) 55%, var(--bg) 100%);
+}
+.hero-in { position: relative; z-index: 1; padding: 90px 0; }
+.hero-kick {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--fg2); margin-bottom: 22px;
+}
+.hero-kick::before { content: ''; width: 34px; height: 2px; background: var(--acc); }
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(60px, 9vw, 110px); line-height: .95;
+  letter-spacing: .015em; margin-bottom: 24px;
+}
+.hero-title em { font-style: normal; color: var(--acc); }
+.hero-sub { font-size: 19px; color: var(--fg2); max-width: 640px; margin-bottom: 34px; }
+.hero-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 38px; }
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 500;
+  background: var(--bg2); color: var(--fg2);
+  border: 1px solid var(--bdr); white-space: nowrap;
+}
+.pill b { color: var(--fg); font-weight: 600; }
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 26px; border-radius: 8px; border: none;
+  font-size: 15px; font-weight: 600; transition: all .2s;
+}
+.btn-p { background: var(--acc); color: #fff; }
+.btn-p:hover { background: var(--acc-d); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 22px rgba(229,9,20,.35); }
+.btn-o { background: transparent; color: var(--fg); border: 1.5px solid var(--fg3); }
+.btn-o:hover { border-color: var(--fg); transform: translateY(-2px); }
+.hero-by { margin-top: 46px; padding-top: 22px; border-top: 1px solid var(--bdr);
+  font-size: 14px; color: var(--fg3); }
+.hero-by b { color: var(--fg); font-weight: 600; }
+/* ── CARDS ─────────────────────────────────────────────────────────── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.card {
+  background: var(--bg2); border: 1px solid var(--bdr); border-radius: 14px;
+  padding: 26px 24px;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+}
+.card:hover { transform: translateY(-3px); border-color: var(--acc); box-shadow: 0 12px 32px var(--sh2); }
+.card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.card .k { font-size: 11px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--acc); margin-bottom: 10px; display: block; }
+.card p, .card li { font-size: 14px; color: var(--fg2); line-height: 1.65; }
+.card li { padding: 3px 0 3px 16px; position: relative; }
+.card li::before { content: ''; position: absolute; left: 2px; top: 12px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--acc); }
+
+/* Bulleted lists outside cards */
+.lst li { font-size: 15px; color: var(--fg2); padding: 4px 0 4px 20px; position: relative; }
+.lst li::before { content: ''; position: absolute; left: 4px; top: 13px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--acc); }
+.lst li b { color: var(--fg); }
+
+/* ── PULL QUOTE ────────────────────────────────────────────────────── */
+.quote {
+  border-left: 4px solid var(--acc);
+  background: linear-gradient(90deg, rgba(229,9,20,.09), transparent 70%);
+  padding: 26px 30px; border-radius: 0 14px 14px 0; margin: 34px 0;
+}
+.quote p { font-size: 21px; font-weight: 500; color: var(--fg); line-height: 1.5; }
+.quote small { display: block; margin-top: 10px; font-size: 13px; color: var(--fg3); }
+
+/* ── JOURNEY FLOW ──────────────────────────────────────────────────── */
+.flow { background: var(--bg3); border: 1px solid var(--bdr); border-radius: 14px; padding: 24px; }
+.flow h4 { font-size: 14px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 18px; }
+.flow.now h4 { color: var(--fg3); }
+.flow.next h4 { color: var(--acc); }
+.step {
+  background: var(--bg2); border: 1px solid var(--bdr); border-radius: 10px;
+  padding: 12px 16px; font-size: 14px; color: var(--fg2);
+}
+.step b { color: var(--fg); font-weight: 600; }
+.step.hot { border-color: var(--acc); background: rgba(229,9,20,.08); color: var(--fg); }
+.arr { text-align: center; color: var(--fg3); font-size: 15px; line-height: 1.55; }
+
+/* ── MOCK UI (pure CSS) ────────────────────────────────────────────── */
+.mock {
+  background: var(--bg3); border: 1px solid var(--bdr); border-radius: 16px;
+  padding: 22px; box-shadow: 0 18px 40px var(--sh2);
+}
+.mock-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.mock-logo { font-family: var(--font-display); color: var(--acc); font-size: 22px; letter-spacing: .05em; }
+.mock-act { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.act {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--bg2); border: 1px solid var(--bdr); border-radius: 999px;
+  padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--fg2);
+}
+.act.hot { background: var(--acc); border-color: var(--acc); color: #fff; font-weight: 600; }
+.row-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+.row-title span { font-size: 12px; color: var(--fg3); font-weight: 400; margin-left: 8px; }
+.tiles { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.tile { border-radius: 10px; overflow: hidden; border: 1px solid var(--bdr); }
+.t-art { aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 28px; letter-spacing: .04em; color: #fff; }
+.t1 { background: linear-gradient(140deg, #3b3b8f, #12124a); }
+.t2 { background: linear-gradient(140deg, #8f5d13, #4a2a06); }
+.t3 { background: linear-gradient(140deg, #0f6b4a, #07331f); }
+.t-meta { background: var(--bg2); padding: 10px 12px; display: flex;
+  align-items: center; justify-content: space-between; gap: 8px; }
+.t-by { font-size: 12px; color: var(--fg2); }
+.t-by b { display: block; font-size: 13px; color: var(--fg); font-weight: 600; }
+.t-play { background: var(--acc); color: #fff; border: none; border-radius: 6px;
+  font-size: 12px; font-weight: 600; padding: 6px 12px; white-space: nowrap; }
+
+/* Groups chips */
+.gp { display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bg2); border: 1px solid var(--bdr); border-radius: 999px;
+  padding: 8px 16px; font-size: 13px; color: var(--fg2); margin: 4px 6px 4px 0; }
+.gp i { width: 8px; height: 8px; border-radius: 50%; background: var(--acc); }
+
+/* ── MVP COLUMNS ───────────────────────────────────────────────────── */
+.scope { border-radius: 14px; padding: 26px 24px; border: 1px solid var(--bdr); }
+.scope.in  { background: rgba(229,9,20,.07); border-color: var(--acc); }
+.scope.out { background: var(--bg2); }
+.scope h3 { font-size: 13px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; margin-bottom: 16px; }
+.scope.in h3 { color: var(--acc); }
+.scope.out h3 { color: var(--fg3); }
+.scope li { font-size: 14px; color: var(--fg2); padding: 5px 0 5px 24px; position: relative; }
+.scope.in li::before  { content: '✓'; position: absolute; left: 0; color: var(--acc); font-weight: 700; }
+.scope.out li::before { content: '✕'; position: absolute; left: 0; color: var(--fg3); }
+
+/* ── METRICS ───────────────────────────────────────────────────────── */
+.hero-met {
+  background: linear-gradient(140deg, rgba(229,9,20,.16), rgba(229,9,20,.03));
+  border: 1px solid var(--acc); border-radius: 16px; padding: 30px;
+  display: flex; align-items: center; gap: 26px; margin-bottom: 26px; flex-wrap: wrap;
+}
+.hero-met .big { font-family: var(--font-display); font-size: 54px; color: var(--acc); line-height: 1; }
+.hero-met h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+.hero-met p { font-size: 14px; color: var(--fg2); max-width: 560px; }
+.met-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.met { background: var(--bg2); border: 1px solid var(--bdr); border-radius: 12px; padding: 18px 20px; }
+.met b { display: block; font-size: 14px; font-weight: 600; color: var(--fg); margin-bottom: 4px; }
+.met span { font-size: 13px; color: var(--fg3); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+/* ── SUBHEAD INSIDE SECTION ────────────────────────────────────────── */
+.h3 { font-family: var(--font-display); font-size: 28px; letter-spacing: .02em;
+  margin: 44px 0 16px; }
+.h3:first-of-type { margin-top: 0; }
+
+/* ── FOOTER ────────────────────────────────────────────────────────── */
+.footer { border-top: 1px solid var(--bdr); padding: 40px 0;
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  font-size: 13px; color: var(--fg3); }
+.footer b { color: var(--fg2); }
+
+/* ── SENIOR READABILITY PASS ─────────────────────────────────────────── */
+/* Target segment is 60 to 80, so the deck raises its type floor.
+   These overrides live after the base rules and take precedence. */
+body { font-size: 18px; line-height: 1.7; }
+.h2 { font-size: clamp(36px, 4.2vw, 56px); }
+.h3 { font-size: 30px; }
+.sub { font-size: 20px; max-width: 780px; }
+.hero-kick { font-size: 13.5px; }
+.lb { font-size: 14px; }
+.card h3 { font-size: 20px; }
+.card .k { font-size: 12.5px; }
+.card p, .card li { font-size: 16.5px; line-height: 1.7; }
+.lst li { font-size: 16.5px; }
+.scope h3 { font-size: 14px; }
+.scope li { font-size: 16px; }
+.quote p { font-size: 24px; }
+.quote small { font-size: 14px; }
+.flow h4 { font-size: 15.5px; }
+.step { font-size: 16px; padding: 14px 18px; }
+.arr { font-size: 16px; }
+.act { font-size: 15px; padding: 10px 18px; }
+.row-title { font-size: 16px; }
+.row-title span { font-size: 13.5px; }
+.t-by { font-size: 14px; }
+.t-by b { font-size: 15px; }
+.t-play { font-size: 14px; padding: 8px 14px; }
+.gp { font-size: 15px; padding: 10px 18px; }
+.hero-sub { font-size: 21px; max-width: 680px; }
+.pill { font-size: 14.5px; padding: 7px 16px; }
+.btn { font-size: 16px; padding: 14px 28px; }
+.hero-by { font-size: 15.5px; }
+.nav-links a { font-size: 14px; }
+.nav-me { font-size: 14.5px; }
+.hero-met h3 { font-size: 20px; }
+.hero-met p { font-size: 15.5px; max-width: 620px; }
+.met b { font-size: 15.5px; }
+.met span { font-size: 14px; }
+.footer { font-size: 14px; }
+
+/* ── TV CONCEPT FRAME ────────────────────────────────────────────────── */
+/* Full-screen TV view, 16:9, typeset for sofa distance. All inner text
+   uses container-query units so the frame stays proportional at any size. */
+.tv { position: relative; background: #050505; border: 4px solid #000; border-radius: 18px;
+  overflow: hidden; aspect-ratio: 16 / 9;
+  box-shadow: 0 34px 70px -22px rgba(0,0,0,.8), inset 0 0 0 1px #262626; }
+.tv::after { content: ""; position: absolute; left: 0; right: 0; bottom: 4px;
+  height: 3px; width: 90px; margin: 0 auto; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #3a3a3a, transparent); }
+.tv-screen { position: absolute; inset: 0; container-type: inline-size;
+  display: flex; flex-direction: column; background: #0b0d10; }
+.tv-top { display: flex; align-items: center; gap: 2cqw; padding: 2.4cqw 3.2cqw 0;
+  font-size: 1.5cqw; letter-spacing: .14em; color: rgba(255,255,255,.5); }
+.tv-top .brand { color: var(--acc); font-family: var(--font-display);
+  font-size: 2cqw; letter-spacing: 0; margin-right: .6cqw; }
+.tv-top b { color: #fff; font-weight: 700; }
+.tv-hero { flex: 1; position: relative; padding: 3.2cqw 3.2cqw 2cqw;
+  background: linear-gradient(100deg, rgba(11,13,16,0) 34%, rgba(11,13,16,.3) 48%, rgba(45,13,18,.45) 100%),
+  linear-gradient(180deg, rgba(11,13,16,0) 42%, #0b0d10 97%),
+  linear-gradient(135deg, #17233f 0%, #3a1c43 55%, #64739b 130%); }
+.tv-orig { font-size: 1.15cqw; letter-spacing: .3em; color: rgba(255,255,255,.65); }
+.tv-hero h3 { margin: .9cqw 0 .7cqw; font-family: var(--font-display); font-size: 4.4cqw;
+  line-height: .95; letter-spacing: .02em; color: #fff; }
+.tv-by { display: inline-flex; align-items: center; gap: .8cqw; margin: .2cqw 0 1.4cqw;
+  padding: .6cqw 1.4cqw .6cqw .7cqw; border-radius: 999px; font-size: 1.5cqw; font-weight: 600;
+  background: rgba(229,9,20,.18); border: 2px solid rgba(229,9,20,.6); color: #ffc2c6; }
+.tv-av { display: inline-flex; width: 2.1cqw; height: 2.1cqw; border-radius: 50%;
+  align-items: center; justify-content: center; background: var(--acc); color: #fff;
+  font-size: 1.15cqw; font-weight: 700; }
+.tv-btns { display: flex; gap: 1cqw; }
+.tv-btns span { padding: .95cqw 2.2cqw; border-radius: .6cqw; font-size: 1.65cqw;
+  font-weight: 700; background: #fff; color: #0b0d10; display: inline-flex;
+  align-items: center; gap: .6cqw; }
+.tv-btns span.ghost { background: rgba(255,255,255,.16); color: #fff; }
+.tv-bottom { padding: 0 3.2cqw 2.4cqw; position: relative; }
+.tv-row-title { font-size: 1.75cqw; font-weight: 700; color: #ececec; margin-bottom: 1.1cqw; }
+.tv-row-title b { color: var(--acc); }
+.tv-rail { display: flex; gap: 1.1cqw; }
+.tv-rail figure { margin: 0; width: 14.5cqw; flex: none; transform-origin: bottom left; }
+.tv-poster { position: relative; aspect-ratio: 16 / 9; border-radius: .9cqw; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.1); background: linear-gradient(135deg, #232526, #414345); }
+.tv-poster .tt { position: absolute; left: 1cqw; bottom: .8cqw; font-size: 1.35cqw;
+  color: #fff; font-weight: 700; text-shadow: 0 2px 6px rgba(0,0,0,.65); }
+.tv-poster .gr { position: absolute; top: .8cqw; right: .9cqw; font-size: 1cqw; font-weight: 500;
+  padding: .25cqw .8cqw; border-radius: .5cqw; background: rgba(0,0,0,.6); color: rgba(255,255,255,.9); }
+.tv-who { display: flex; align-items: center; gap: .6cqw; margin-top: .6cqw;
+  font-size: 1.2cqw; color: rgba(255,255,255,.6); }
+.tv-who i { width: 1.6cqw; height: 1.6cqw; border-radius: 50%; background: #53575c;
+  color: #fff; font-style: normal; display: flex; align-items: center; justify-content: center;
+  font-size: .95cqw; font-weight: 700; }
+.tv-who b { color: rgba(255,255,255,.9); font-weight: 700; }
+.tv-rail .focus .tv-poster { border: 3px solid #fff;
+  box-shadow: 0 0 0 3px rgba(229,9,20,.45), 0 1.4cqw 2.8cqw rgba(0,0,0,.6);
+  transform: scale(1.05); }
+.p1 .tv-poster { background: linear-gradient(135deg, #2b5876, #4e4376); }
+.p2 .tv-poster { background: linear-gradient(135deg, #3a1c71, #d76d77); }
+.p3 .tv-poster { background: linear-gradient(135deg, #136a8a, #267871); }
+.p4 .tv-poster { background: linear-gradient(135deg, #aa076b, #61045f); }
+.p5 .tv-poster { background: linear-gradient(135deg, #232526, #414345); }
+.tv-qr { position: absolute; right: 3.2cqw; bottom: 2.6cqw; width: 20cqw;
+  background: #16191e; border: 1px solid var(--bdr-soft); border-radius: 1.3cqw;
+  padding: 1.6cqw; display: flex; align-items: center; gap: 1.3cqw;
+  box-shadow: 0 1.6cqw 3.2cqw rgba(0,0,0,.65); }
+.tv-qr::after { content: ""; position: absolute; left: -1cqw; top: 50%; margin-top: -.8cqw;
+  border: .8cqw solid transparent; border-right-color: #16191e; }
+.tv-qr svg { width: 6cqw; height: 6cqw; border-radius: .6cqw; flex: none; }
+.tv-qr .qt b { display: block; font-size: 1.35cqw; color: #fff; font-weight: 700; margin-bottom: .35cqw; }
+.tv-qr .qt span { font-size: 1.05cqw; color: var(--fg3); line-height: 1.5; display: block; }
+.tv-cap { margin-top: 16px; font-size: 13px; color: var(--fg3); letter-spacing: .06em;
+  text-transform: uppercase; }
+@media (max-width: 767px) { .tv-qr { width: 30cqw; } }
+
+/* ── REVEAL ON SCROLL ──────────────────────────────────────────────── */
+.js .rv { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+.js .rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .js .rv { opacity: 1; transform: none; transition: none; } }
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .nav-links { display: none; }
+  .ham { display: flex; }
+  .grid3 { grid-template-columns: repeat(2, 1fr); }
+  .met-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero { min-height: auto; }
+  .wrap, .nav-i { width: 84vw; }
+}
+@media (max-width: 767px) {
+  section { padding: 56px 0; }
+  .h2 { font-size: 34px; }
+  .grid2, .grid3, .met-grid, .tiles { grid-template-columns: 1fr; }
+  .hero-met .big { font-size: 42px; }
+  .nav-me { display: none; }
+  .wrap, .nav-i { width: 90vw; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip">Skip to main content</a>
+
+<!-- Mobile overlay nav -->
+<nav class="ov" id="ov" role="dialog" aria-modal="true" aria-label="Deck navigation">
+  <button class="ov-close" id="ovClose" aria-label="Close menu">×</button>
+  <a href="#overview">Overview</a>
+  <a href="#why">Why Now</a>
+  <a href="#users">Users</a>
+  <a href="#journey">Journey</a>
+  <a href="#solution">Solution</a>
+  <a href="#design">Design</a>
+  <a href="#privacy">Privacy</a>
+  <a href="#mvp">MVP</a>
+  <a href="#metrics">Metrics</a>
+  <a href="#success">Success</a>
+</nav>
+
+<!-- Sticky top nav -->
+<header class="nav" id="mainNav">
+  <div class="nav-i">
+    <a href="#overview" class="nav-logo" aria-label="Home, deck start">NETFLIX<span>Product Design Deck</span></a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#overview" class="active">Overview</a></li>
+        <li><a href="#why">Why Now</a></li>
+        <li><a href="#users">Users</a></li>
+        <li><a href="#journey">Journey</a></li>
+        <li><a href="#solution">Solution</a></li>
+        <li><a href="#design">Design</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#mvp">MVP</a></li>
+        <li><a href="#metrics">Metrics</a></li>
+        <li><a href="#success">Success</a></li>
+      </ul>
+    </nav>
+    <div class="nav-r">
+      <a class="nav-me" href="https://cococommits.github.io/" target="_blank" rel="noopener noreferrer" title="Neha Bendale's portfolio (opens in a new tab)">Neha Bendale <span aria-hidden="true" style="font-size:12px">↗</span></a>
+      <button class="ham" id="ham" aria-label="Open navigation" aria-expanded="false" aria-controls="ov">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ═ HERO ═ -->
+<section class="hero" id="overview" aria-label="Overview">
+  <div class="wrap hero-in">
+    <span class="hero-kick">Product Design Case Study</span>
+    <h1 class="hero-title">Recommended<br>by <em>Friends</em></h1>
+    <p class="hero-sub">
+      Bringing the most trusted recommendation engine in the world, your own friends and
+      family, inside Netflix. No app switching, no lost WhatsApp links, just one tap from
+      "Neha recommended this" to pressing play.
+    </p>
+    <div class="hero-pills">
+      <span class="pill">Platform <b>Netflix</b></span>
+      <span class="pill">Segment <b>Indian users, 60 to 80</b></span>
+      <span class="pill">Scope <b>Mobile, Tablet, TV first</b></span>
+      <span class="pill">Focus <b>Social discovery</b></span>
+    </div>
+    <div class="hero-ctas">
+      <a href="#why" class="btn btn-p">Read the Thinking ↓</a>
+      <a href="#solution" class="btn btn-o">Jump to Solution</a>
+    </div>
+    <p class="hero-by">A product design exploration by <b>Neha Bendale</b>, Product Manager</p>
+  </div>
+</section>
+
+<!-- ═ WHY NOW ═ -->
+<section class="band" id="why" aria-label="Motivation">
+  <div class="wrap">
+    <span class="lb rv">01 | Why This Matters</span>
+    <h2 class="h2 rv">The recommendation that dies in WhatsApp</h2>
+    <p class="sub rv">
+      Senior viewers in India have strong social circles. They talk about movies and shows
+      constantly, over chai, on calls, in family groups. This is a bet on the simplest
+      growth lever Netflix has: people trust their friends more than any algorithm.
+    </p>
+
+    <div class="grid2">
+      <div class="card rv">
+        <span class="k">What happens today</span>
+        <p style="margin-bottom:12px">
+          I watch a movie I love and share it with Yogesh on WhatsApp. Now the discovery
+          of that recommendation depends entirely on him opening WhatsApp, finding my
+          message among fifty others, and clicking through.
+        </p>
+        <p>
+          The journey is long and fragile: friend recommends, message sits on an external
+          platform, user eventually finds it, clicks the link, Netflix opens, and only
+          then does the watch begin.
+        </p>
+      </div>
+      <div class="card rv">
+        <span class="k">The opportunity</span>
+        <p style="margin-bottom:12px">
+          What if Netflix surfaced that recommendation the moment Yogesh opens the app?
+          A simple row on the home page: <b style="color:var(--fg)">Recommended by Friends</b>.
+        </p>
+        <p>
+          The journey collapses to: friend recommends, open Netflix, see the row, watch.
+          Right now, a recommendation from a friend dies inside WhatsApp. The fix is not
+          more chatter; it is bringing that trusted signal inside Netflix itself.
+        </p>
+      </div>
+    </div>
+
+    <div class="quote rv">
+      <p>We are not building a social network. We are making the recommendations that already happen every day, effortless to act on.</p>
+      <small>The framing that shapes every decision in this deck</small>
+    </div>
+
+    <div class="card rv">
+      <span class="k">Core problem</span>
+      <p>
+        Netflix is excellent at algorithmic recommendations, but viewers also depend on people
+        they personally know. Those recommendations are scattered across WhatsApp, SMS, and
+        phone calls, which means they get missed, require app switching, and force extra
+        searching before a viewer can press play. Every one of those steps is lost conversion.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═ USERS ═ -->
+<section id="users" aria-label="Target users">
+  <div class="wrap">
+    <span class="lb rv">02 | Who We Are Building For</span>
+    <h2 class="h2 rv">Designed for the 60 to 80 viewer</h2>
+    <p class="sub rv">
+      The primary segment is Indian Netflix users aged 60 to 80: moderate technology comfort,
+      phones and tablets used mainly for WhatsApp, YouTube, and a handful of familiar apps.
+      They prefer simple interfaces, lean on friends and family for what to watch, and often
+      favour regional language or familiar content.
+    </p>
+
+    <div class="grid3">
+      <div class="card rv">
+        <span class="k">Persona</span>
+        <h3>Jayant, 62 · The Quick Viewer</h3>
+        <ul>
+          <li>Watches a wide variety of content</li>
+          <li>Fast forwards the parts he finds boring</li>
+          <li>Wants to grasp the storyline quickly</li>
+          <li>Values recommendations that tell him what is worth his time</li>
+        </ul>
+      </div>
+      <div class="card rv">
+        <span class="k">Persona</span>
+        <h3>Rajini, 72 · The Familiar Viewer</h3>
+        <ul>
+          <li>Enjoys spiritual and light hearted content</li>
+          <li>Prefers regional language titles</li>
+          <li>Discovers most of what she watches through people she knows</li>
+        </ul>
+      </div>
+      <div class="card rv">
+        <span class="k">Persona</span>
+        <h3>Simran, 80 · The Explorer</h3>
+        <ul>
+          <li>Loves travel and adventure</li>
+          <li>Watches thrillers, adventure, and romance</li>
+          <li>Genuinely enjoys discovering new kinds of content</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote rv">
+      <p>My hypothesis: trusted recommendations beat algorithmic ones when it comes to actually pressing play. If sharing is easy and recommendations live inside Netflix, discovery gets faster and viewing follows.</p>
+      <small>The user hypothesis this design sets out to prove</small>
+    </div>
+  </div>
+</section>
+<!-- ═ JOURNEY ═ -->
+<section class="band" id="journey" aria-label="User journey">
+  <div class="wrap">
+    <span class="lb rv">03 | The Journey</span>
+    <h2 class="h2 rv">Seven steps, down to three</h2>
+    <p class="sub rv">
+      Every extra step between "my friend loved this" and pressing play is a place where
+      the viewer drops off. The proposed journey removes the external platform entirely.
+    </p>
+
+    <div class="grid2">
+      <div class="flow now rv">
+        <h4>Today · via WhatsApp</h4>
+        <div class="step">I finish a movie and <b>share the Netflix link on WhatsApp</b></div>
+        <div class="arr">↓</div>
+        <div class="step">Yogesh has to <b>open WhatsApp</b></div>
+        <div class="arr">↓</div>
+        <div class="step"><b>Find my message</b> among everything else</div>
+        <div class="arr">↓</div>
+        <div class="step"><b>Click the link</b> and wait for Netflix to open</div>
+        <div class="arr">↓</div>
+        <div class="step">Finally, <b>watch</b></div>
+      </div>
+      <div class="flow next rv">
+        <h4>Proposed · inside Netflix</h4>
+        <div class="step hot">I finish a movie and tap <b>Share with Friends</b></div>
+        <div class="arr">↓</div>
+        <div class="step hot">Yogesh opens Netflix and sees <b>Recommended by Friends</b></div>
+        <div class="arr">↓</div>
+        <div class="step hot"><b>Watch</b></div>
+        <p style="font-size:14px;color:var(--fg3);margin-top:18px">
+          Same trusted recommendation. A fraction of the friction. No context switching,
+          no buried links, no searching for the title.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═ SOLUTION ═ -->
+<section id="solution" aria-label="Proposed solution">
+  <div class="wrap">
+    <span class="lb rv">04 | The Solution</span>
+    <h2 class="h2 rv">Two surfaces, one small loop</h2>
+    <p class="sub rv">
+      The entire feature is a loop with two ends: a better way to share, and a place where
+      shared titles land. Nothing else changes about Netflix.
+    </p>
+
+    <h3 class="h3 rv">A · Share with Friends</h3>
+    <p class="sub rv" style="margin-bottom:24px">
+      The existing Share action gets a new first-class option. Watching a title or viewing its
+      details, the path is simply: Share → Share with Friends → pick a friend or group → send,
+      with an optional personal note. The entire journey is three taps. If a viewer has to
+      learn a new social workflow, we have already lost them.
+    </p>
+
+    <div class="mock rv" role="img" aria-label="Mock of the share placement on a title">
+      <div class="mock-top">
+        <span class="mock-logo">NETFLIX</span>
+        <span style="font-size:14px;color:var(--fg3)">Placement, next to the actions viewers already use</span>
+      </div>
+      <div class="mock-act">
+        <span class="act">👍 Like</span>
+        <span class="act">👎 Not for me</span>
+        <span class="act hot">👥 Share with Friends</span>
+      </div>
+      <p style="font-size:15px;color:var(--fg2)">
+        Share sits beside Like and Not for me, an interaction pattern viewers already know.
+        One tap on Share with Friends, choose the group, done. Example message:
+        <b style="color:var(--fg)">Neha recommended The Intern · "You might enjoy this!"</b>
+      </p>
+    </div>
+
+    <h3 class="h3 rv">B · The Recommended by Friends row</h3>
+    <p class="sub rv" style="margin-bottom:24px">
+      A new row on the Netflix home page holds every recommendation you have received, in the
+      familiar content card format. Important principle: the row is contextual. It appears when
+      you have at least one recommendation and stays out of the way when you do not.
+    </p>
+
+    <div class="mock rv" role="img" aria-label="Mock of the Recommended by Friends home row">
+      <div class="row-title">Recommended by Friends <span>Visible only when you have recommendations</span></div>
+      <div class="tiles">
+        <div class="tile">
+          <div class="t-art t1">THE INTERN</div>
+          <div class="t-meta">
+            <div class="t-by">Recommended by<b>Neha</b></div>
+            <button class="t-play">▶ Watch</button>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="t-art t2">LUNCHBOX</div>
+          <div class="t-meta">
+            <div class="t-by">Recommended by<b>Rajini</b></div>
+            <button class="t-play">▶ Watch</button>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="t-art t3">ZINDAGI</div>
+          <div class="t-meta">
+            <div class="t-by">Recommended by<b>Simran</b></div>
+            <button class="t-play">▶ Watch</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="h3 rv">C · Friends and family groups</h3>
+    <p class="sub rv" style="margin-bottom:18px">
+      Viewers create small groups that mirror their real circles, so a thriller goes to the
+      travel friends and a devotional film goes to family. Sharing is: Share with Friends →
+      select group → send. If you belong to several groups, a simple dropdown keeps it one step.
+    </p>
+    <div class="rv">
+      <span class="gp"><i></i>Family · Neha, Yogesh, Rajini, Simran</span>
+      <span class="gp"><i></i>College Friends</span>
+      <span class="gp"><i></i>Neighbourhood Friends</span>
+      <span class="gp"><i></i>Travel Friends</span>
+    </div>
+
+    <h3 class="h3 rv">D · Full screen TV view</h3>
+    <p class="sub rv" style="margin-bottom:26px">
+      The TV is the primary screen for the 60 to 80 viewer, so the feature is designed
+      big screen first: one oversized row near the top of home, type set for sofa distance,
+      a thick focus ring that is impossible to miss on a remote, and a QR code shown in
+      place so nobody has to spell a title out on a phone call.
+    </p>
+
+    <div class="tv rv" role="img"
+      aria-label="Concept frame of Recommended by Friends on the Netflix TV app, showing a large recommendation row and a QR code beside the focused title">
+      <div class="tv-screen">
+        <div class="tv-top">
+          <span class="brand">NETFLIX</span>
+          <span>Home</span><span>My List</span><b>Recommended</b>
+        </div>
+        <div class="tv-hero">
+          <span class="tv-orig">A NETFLIX FILM</span>
+          <h3>The Lunchbox</h3>
+          <span class="tv-by"><span class="tv-av">N</span> Recommended by Neha · “You two will love this”</span>
+          <div class="tv-btns"><span>▶&nbsp; Play</span><span class="ghost">ⓘ More Info</span></div>
+        </div>
+        <div class="tv-bottom">
+          <div class="tv-row-title">Recommended by Friends · <b>4 new for you</b></div>
+          <div class="tv-rail">
+            <figure class="p1">
+              <div class="tv-poster"><span class="gr">Drama</span><span class="tt">Paper Skies</span></div>
+              <figcaption class="tv-who"><i>Y</i> from <b>Yogesh</b></figcaption>
+            </figure>
+            <figure class="p2 focus">
+              <div class="tv-poster"><span class="gr">Romance</span><span class="tt">The Lunchbox</span></div>
+              <figcaption class="tv-who"><i>N</i> from <b>Neha</b></figcaption>
+            </figure>
+            <figure class="p3">
+              <div class="tv-poster"><span class="gr">Devotional</span><span class="tt">Morning Aarti</span></div>
+              <figcaption class="tv-who"><i>R</i> from <b>Rajini</b></figcaption>
+            </figure>
+            <figure class="p4">
+              <div class="tv-poster"><span class="gr">Thriller</span><span class="tt">Night Train</span></div>
+              <figcaption class="tv-who"><i>S</i> from <b>Simran</b></figcaption>
+            </figure>
+            <figure class="p5">
+              <div class="tv-poster"><span class="gr">Travel</span><span class="tt">Slow Rivers</span></div>
+              <figcaption class="tv-who"><i>J</i> from <b>Jayant</b></figcaption>
+            </figure>
+          </div>
+          <div class="tv-qr">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect width="100" height="100" rx="6" fill="#ffffff"/>
+              <g fill="#111111">
+                <rect x="8" y="8" width="22" height="22"/>
+                <rect x="12" y="12" width="14" height="14" fill="#ffffff"/>
+                <rect x="15" y="15" width="8" height="8"/>
+                <rect x="70" y="8" width="22" height="22"/>
+                <rect x="74" y="12" width="14" height="14" fill="#ffffff"/>
+                <rect x="77" y="15" width="8" height="8"/>
+                <rect x="8" y="70" width="22" height="22"/>
+                <rect x="12" y="74" width="14" height="14" fill="#ffffff"/>
+                <rect x="15" y="77" width="8" height="8"/>
+                <rect x="38" y="10" width="5" height="5"/><rect x="46" y="18" width="5" height="5"/>
+                <rect x="54" y="10" width="5" height="5"/><rect x="62" y="10" width="5" height="5"/>
+                <rect x="38" y="26" width="5" height="5"/><rect x="46" y="10" width="5" height="5"/>
+                <rect x="54" y="26" width="5" height="5"/><rect x="62" y="22" width="5" height="5"/>
+                <rect x="10" y="38" width="5" height="5"/><rect x="20" y="46" width="5" height="5"/>
+                <rect x="28" y="38" width="5" height="5"/><rect x="36" y="44" width="5" height="5"/>
+                <rect x="44" y="38" width="5" height="5"/><rect x="52" y="48" width="5" height="5"/>
+                <rect x="60" y="40" width="5" height="5"/><rect x="68" y="48" width="5" height="5"/>
+                <rect x="76" y="38" width="5" height="5"/><rect x="84" y="46" width="5" height="5"/>
+                <rect x="92" y="38" width="5" height="5"/>
+                <rect x="10" y="56" width="5" height="5"/><rect x="18" y="62" width="5" height="5"/>
+                <rect x="28" y="54" width="5" height="5"/><rect x="36" y="60" width="5" height="5"/>
+                <rect x="44" y="54" width="5" height="5"/><rect x="52" y="62" width="5" height="5"/>
+                <rect x="60" y="56" width="5" height="5"/><rect x="68" y="64" width="5" height="5"/>
+                <rect x="76" y="56" width="5" height="5"/><rect x="84" y="62" width="5" height="5"/>
+                <rect x="92" y="54" width="5" height="5"/>
+                <rect x="38" y="72" width="5" height="5"/><rect x="46" y="80" width="5" height="5"/>
+                <rect x="54" y="72" width="5" height="5"/><rect x="62" y="80" width="5" height="5"/>
+                <rect x="70" y="72" width="5" height="5"/><rect x="78" y="80" width="5" height="5"/>
+                <rect x="86" y="72" width="5" height="5"/><rect x="92" y="82" width="5" height="5"/>
+                <rect x="44" y="90" width="5" height="5"/><rect x="60" y="90" width="5" height="5"/>
+                <rect x="76" y="90" width="5" height="5"/>
+              </g>
+            </svg>
+            <div class="qt">
+              <b>Open on your phone</b>
+              <span>Point the Netflix app camera at the code. The title opens on their phone, no searching needed.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="tv-cap rv">Concept TV frame · large type floor, high contrast focus state · illustrative mock, not a shipped build</p>
+
+    <div class="quote rv" style="margin-top:36px">
+      <p>On the big screen, discovery should be one large, readable row. If Rajini can read the recommender's name from the sofa, the design works.</p>
+      <small>The TV first test this frame is designed to pass</small>
+    </div>
+  </div>
+</section>
+<!-- ═ DESIGN PRINCIPLES ═ -->
+<section class="band" id="design" aria-label="Design principles">
+  <div class="wrap">
+    <span class="lb rv">05 | Design Considerations</span>
+    <h2 class="h2 rv">Built for a TV remote, and for patience</h2>
+
+    <div class="grid2">
+      <div class="card rv">
+        <span class="k">1 · Primary viewing device is the TV</span>
+        <p style="margin-bottom:12px">
+          Senior viewers mostly watch Netflix on TV. On a remote, every extra menu is real
+          friction, so the share flow cannot be Title → More Options → Share → Share with
+          Friends → Select Group.
+        </p>
+        <p>
+          Instead the action lives on the title surface itself: 👍 | 👎 | 👥 Share with
+          Friends. One click, select the group, done.
+        </p>
+        <p style="margin-top:12px;font-size:14px;color:var(--fg3)">
+          Design principle: minimise navigation steps, because each additional interaction
+          on a remote multiplies effort.
+        </p>
+      </div>
+      <div class="card rv">
+        <span class="k">2 · Low cognitive load, always</span>
+        <ul>
+          <li>Large, clearly identifiable controls and selection targets</li>
+          <li>High readability and strong visual hierarchy</li>
+          <li>Minimal steps with simple, familiar terminology</li>
+          <li>Clear confirmation after every action</li>
+          <li>No unnecessary pop ups, menus, or choices</li>
+          <li>Consistent placement of the Share action</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote rv">
+      <p>For senior users, simplicity is not a nice to have. It is a core product requirement.</p>
+      <small>The non negotiable design principle</small>
+    </div>
+  </div>
+</section>
+
+<!-- ═ PRIVACY ═ -->
+<section id="privacy" aria-label="Privacy">
+  <div class="wrap">
+    <span class="lb rv">06 | Privacy and Trust</span>
+    <h2 class="h2 rv">Opt in, always. No exceptions.</h2>
+    <p class="sub rv">
+      Trust is the entire product. Break it once and the feature is dead, so social viewing
+      is opt in at every step. Watching a title never automatically tells anyone anything.
+    </p>
+
+    <div class="grid2">
+      <div class="card rv">
+        <span class="k">Privacy principles</span>
+        <ul>
+          <li>Sharing is always an explicit action</li>
+          <li>Watching never means sharing by default</li>
+          <li>The viewer chooses exactly which group receives it</li>
+          <li>Anyone can leave a group or mute recommendations</li>
+          <li>No public viewing activity, ever</li>
+        </ul>
+      </div>
+      <div class="card rv">
+        <span class="k">Future opportunity, deliberately out</span>
+        <p style="margin-bottom:12px">
+          Once sharing behaviour is established, Netflix could explore "What your friends
+          are watching". I am keeping it out of the MVP on purpose.
+        </p>
+        <p>
+          Recommended by Friends is an explicit action. What friends are watching is passive
+          activity, and passive sharing carries far heavier privacy weight. It would only ever
+          ship behind explicit consent: "Let your friends know you're watching this? Yes / No."
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═ GOALS + MVP ═ -->
+<section class="band" id="mvp" aria-label="Goals and MVP">
+  <div class="wrap">
+    <span class="lb rv">07 | Goals and MVP Scope</span>
+    <h2 class="h2 rv">Ship the loop, nothing more</h2>
+    <p class="sub rv">
+      The user goal is faster, lower effort discovery through people they trust, without
+      leaving Netflix. The business goal is more discovery, more starts, deeper engagement,
+      and stickier repeat usage. The MVP is scoped to prove exactly one thing: the loop works.
+    </p>
+
+    <div class="grid2">
+      <div class="scope in rv">
+        <h3>In the MVP</h3>
+        <ul>
+          <li>Share with Friends flow</li>
+          <li>Friends and family groups</li>
+          <li>Recommended by Friends home row</li>
+          <li>Explicit privacy controls</li>
+        </ul>
+      </div>
+      <div class="scope out rv">
+        <h3>Deliberately out</h3>
+        <ul>
+          <li>What friends are watching</li>
+          <li>Public profiles</li>
+          <li>Comments, likes, or a social feed</li>
+          <li>Automatic viewing status sharing</li>
+          <li>Any broader Netflix UI redesign</li>
+          <li>New content categories</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═ METRICS ═ -->
+<section id="metrics" aria-label="Success metrics">
+  <div class="wrap">
+    <span class="lb rv">08 | How We Measure It</span>
+    <h2 class="h2 rv">One north star, honest guardrails</h2>
+    <p class="sub rv">
+      My primary metric is Recommendation to Watch conversion: of every recommendation
+      received, how many lead to the recipient starting the title. Everything else tells us
+      whether the loop is healthy, and whether we are earning trust or burning it.
+    </p>
+
+    <div class="hero-met rv">
+      <div class="big disp">NORTH STAR</div>
+      <div>
+        <h3>Recommendation → Watch conversion</h3>
+        <p>% of friend recommendations that result in the recipient starting the title.
+        This is the single clearest signal that trusted discovery creates viewing.</p>
+      </div>
+    </div>
+
+    <div class="met-grid">
+      <div class="met rv"><b>Share adoption</b><span>Share with Friends clicks / total Share interactions</span></div>
+      <div class="met rv"><b>Recommendation engagement</b><span>% of received recommendations opened</span></div>
+      <div class="met rv"><b>Recommendation conversion</b><span>% of recommendations that result in a start</span></div>
+      <div class="met rv"><b>Time to watch</b><span>Median time from receiving a recommendation to starting it</span></div>
+      <div class="met rv"><b>Repeat usage</b><span>% of users who send or receive more than once</span></div>
+      <div class="met rv"><b>Business impact</b><span>
+        <span class="chips">
+          <span class="pill">Starts per user</span><span class="pill">Watch time</span>
+          <span class="pill">Sessions</span><span class="pill">7 / 30 day retention</span><span class="pill">Browse abandonment</span>
+        </span>
+      </span></div>
+    </div>
+
+    <h3 class="h3 rv">Guardrails: the trust metrics</h3>
+    <ul class="lst rv">
+      <li><b>Recommendation mute rate</b> and <b>group abandonment</b>: are we wearing people out?</li>
+      <li><b>Spam / report rate</b> and <b>privacy complaints</b>: are we crossing a line?</li>
+      <li><b>Change in overall Netflix engagement</b>: the feature must never hurt the core experience.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═ SUCCESS ═ -->
+<section class="band" id="success" aria-label="Experiment and success definition">
+  <div class="wrap">
+    <span class="lb rv">09 | Experiment and Definition of Success</span>
+    <h2 class="h2 rv">Prove it, then scale it</h2>
+    <p class="sub rv">
+      Run a clean A/B test. The control is today's Netflix. The treatment adds Share with
+      Friends plus the Recommended by Friends row. We then compare the full funnel:
+      discovery → recommendation engagement → content start → watch behaviour.
+    </p>
+
+    <div class="card rv">
+      <span class="k">The key question</span>
+      <p>Does adding trusted social recommendations help users find and start content more effectively?</p>
+    </div>
+
+    <div class="card rv" style="margin-top:16px">
+      <span class="k">Success means</span>
+      <p>
+        The feature wins if trusted recommendations measurably reduce discovery friction and
+        lift content starts, while privacy stays intact and the existing Netflix experience
+        is untouched. If the guardrails move the wrong way, that is not success, whatever
+        the conversion number says.
+      </p>
+    </div>
+
+    <div class="quote rv">
+      <p>The core bet: Netflix does not need to become a social network. It needs to make trusted recommendations effortless to discover and act on.</p>
+      <small>The one line this entire deck bets on</small>
+    </div>
+
+    <div class="footer">
+      <span><b>Recommended by Friends</b> · Netflix product design exploration</span>
+      <span>Designed and written by <b>Neha Bendale</b>, Product Manager</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* Enable reveal animations only when JS runs, so content is never stuck hidden */
+document.documentElement.classList.add('js');
+
+/* Webfont detection: swap to system stack if Google Fonts did not load */
+(function () {
+  function fallback() { document.documentElement.classList.add('no-wf'); }
+  if (!document.fonts || !document.fonts.check) { fallback(); return; }
+  var t = setTimeout(fallback, 3000); /* network hang safety */
+  document.fonts.ready.then(function () {
+    clearTimeout(t);
+    if (!document.fonts.check('16px "Bebas Neue"') ||
+        !document.fonts.check('16px "Inter"')) fallback();
+  });
+}());
+
+/* Nav: blur on scroll, scroll-spy active state */
+var nav = document.getElementById('mainNav');
+var navLinks = document.querySelectorAll('.nav-links a, .ov a');
+var sections = [];
+navLinks.forEach(function (a) {
+  var id = a.getAttribute('href');
+  if (id && id.charAt(0) === '#') {
+    var el = document.getElementById(id.slice(1));
+    if (el) sections.push(id.slice(1));
+  }
+});
+sections = sections.filter(function (v, i) { return sections.indexOf(v) === i; });
+
+function onScroll() {
+  nav.classList.toggle('scrolled', window.scrollY > 10);
+  var y = window.scrollY + 120, active = sections[0];
+  sections.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el && el.offsetTop <= y) active = id;
+  });
+  navLinks.forEach(function (a) {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + active);
+  });
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+/* Mobile overlay menu */
+var ham = document.getElementById('ham'), ov = document.getElementById('ov'),
+    ovClose = document.getElementById('ovClose');
+function closeOv() { ov.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); }
+ham.addEventListener('click', function () {
+  var open = ov.classList.toggle('open');
+  ham.setAttribute('aria-expanded', String(open));
+});
+ovClose.addEventListener('click', closeOv);
+ov.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeOv); });
+
+/* Reveal on scroll */
+if ('IntersectionObserver' in window) {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+} else {
+  document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+}
+</script>
+</body>
+</html>

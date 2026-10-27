@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Product teardown by Neha Bendale: Rapido Add Services, and the proposed Book Any enhancement.">
+<title>Rapido Add Services Teardown + Book Any · Neha Bendale</title>
+
+<!-- Google Fonts with offline detection: JS swaps to system fonts if these fail -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"></noscript>
+
+<style>
+/* ── TOKENS (Rapido light theme) ──────────────────────────────────── */
+:root {
+  --bg:    #ffffff;
+  --bg2:   #F8F9FA;
+  --bg3:   #FFF6DC;
+  --fg:    #212121;
+  --fg2:   #4d4d4d;
+  --fg3:   #8a8a8a;
+  --acc:   #FFC107;
+  --acc-d: #E0A800;
+  --acc-t: #8a6d00;
+  --bdr:   #e9e9e9;
+  --sh:    0 2px 8px rgba(0,0,0,.06);
+  --sh2:   0 14px 34px rgba(0,0,0,.12);
+  --font-display: 'Sora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body:    'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+/* Offline fallback: system fonts when webfonts did not load */
+.no-wf { --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
+/* ── RESET ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: var(--font-body);
+  font-size: 16px; line-height: 1.65;
+  color: var(--fg); background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+ul { list-style: none; }
+a { color: var(--acc-t); text-decoration: none; transition: color .2s; }
+a:hover { color: var(--acc-d); }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--acc); outline-offset: 3px; border-radius: 3px;
+}
+button { cursor: pointer; font-family: inherit; }
+
+/* ── SKIP LINK ─────────────────────────────────────────────────────── */
+.skip { position: absolute; top: -100px; left: 16px; z-index: 9999;
+  background: var(--fg); color: #fff; padding: 8px 16px;
+  border-radius: 0 0 8px 8px; font-size: 14px; font-weight: 500;
+  transition: top .2s; }
+.skip:focus { top: 0; }
+
+/* ── LAYOUT ────────────────────────────────────────────────────────── */
+.wrap { width: 60vw; max-width: 1400px; margin: 0 auto; }
+section { padding: 84px 0; }
+.lb {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 600; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--fg2); margin-bottom: 14px;
+}
+.lb i { width: 26px; height: 4px; border-radius: 2px; background: var(--acc); }
+.lb b { color: var(--acc-t); font-weight: 700; }
+.h2 {
+  font-family: var(--font-display);
+  font-size: 42px; font-weight: 800; letter-spacing: -.02em;
+  color: var(--fg); margin-bottom: 18px; line-height: 1.12;
+}
+.h2 em { font-style: normal; background: linear-gradient(transparent 62%, var(--acc) 62%, var(--acc) 94%, transparent 94%); }
+.sub { font-size: 17px; color: var(--fg2); max-width: 740px; margin-bottom: 40px; }
+.band { background: var(--bg2); border-top: 1px solid var(--bdr); border-bottom: 1px solid var(--bdr); }
+.slide-tag {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--fg);
+  background: var(--acc); border-radius: 999px; padding: 4px 14px; margin-bottom: 14px;
+}
+
+/* ── NAVIGATION (styled after cococommits.github.io) ───────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg); border-bottom: 1px solid var(--bdr);
+}
+.nav.scrolled {
+  background: rgba(255,255,255,.9);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+.nav-i {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; width: 60vw; max-width: 1400px; margin: 0 auto;
+}
+.nav-logo {
+  font-family: var(--font-display); font-size: 24px; font-weight: 800;
+  color: var(--fg); letter-spacing: -.02em; line-height: 1;
+}
+.nav-logo:hover { color: var(--fg); }
+.nav-logo .y { background: var(--acc); border-radius: 8px; padding: 2px 8px; margin-right: 6px; }
+.nav-logo span { color: var(--fg3); font-family: var(--font-body);
+  font-size: 12px; font-weight: 500; letter-spacing: .06em;
+  text-transform: uppercase; margin-left: 10px; }
+
+.nav-links { display: flex; align-items: center; gap: 20px; }
+.nav-links a {
+  font-size: 13px; font-weight: 500; color: var(--fg2);
+  position: relative; display: inline-flex; align-items: center;
+  height: 64px;
+}
+.nav-links a:hover { color: var(--fg); }
+.nav-links a.active { color: #6d4c2f; font-weight: 700; }
+.nav-links a::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; height: 100%; pointer-events: none;
+  background:
+    linear-gradient(to bottom, #6d4c2f 0, #6d4c2f 3px, transparent 3px),
+    radial-gradient(ellipse 80% 72% at top center,
+      rgba(109,76,47,.18) 0%, transparent 85%);
+  opacity: 0; transition: opacity .3s ease;
+}
+.nav-links a.active::before { opacity: 1; }
+
+.nav-r { display: flex; align-items: center; gap: 12px; }
+.nav-me {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 700; color: var(--fg);
+  background: var(--acc); padding: 8px 16px; border-radius: 999px;
+  transition: all .2s;
+}
+.nav-me:hover { background: var(--acc-d); color: var(--fg); transform: translateY(-1px); }
+
+/* Hamburger + mobile overlay */
+.ham { display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; padding: 6px 4px; }
+.ham span { display: block; width: 22px; height: 2px;
+  background: var(--fg); border-radius: 2px; transition: all .2s; }
+.ham[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.ham[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.ham[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.ov {
+  position: fixed; inset: 0; z-index: 200; background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 24px;
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.ov.open { opacity: 1; pointer-events: auto; }
+.ov a { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--fg); }
+.ov a:hover { color: var(--acc-t); }
+.ov-close { position: absolute; top: 18px; right: 24px;
+  background: none; border: none; font-size: 32px; color: var(--fg);
+  padding: 4px 8px; border-radius: 8px; line-height: 1; }
+
+/* ── COVER ─────────────────────────────────────────────────────────── */
+.cover {
+  min-height: 92vh; display: flex; align-items: center;
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(ellipse 55% 45% at 82% 30%, rgba(255,193,7,.30) 0%, transparent 65%),
+    linear-gradient(180deg, #FFFDF5 0%, var(--bg) 70%);
+}
+.cover-in { position: relative; z-index: 1; padding: 80px 0;
+  display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+.cover-kick {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--fg);
+  background: var(--acc); border-radius: 999px; padding: 5px 16px; margin-bottom: 26px;
+}
+.cover-title {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6.5vw, 76px); font-weight: 800;
+  line-height: 1.04; letter-spacing: -.025em; margin-bottom: 20px;
+}
+.cover-title em { font-style: normal; color: var(--acc-t); }
+.cover-sub { font-family: var(--font-display); font-size: 22px; font-weight: 600;
+  color: var(--fg2); margin-bottom: 34px; }
+.cover-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 44px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 26px; border-radius: 999px; border: none;
+  font-size: 15px; font-weight: 700; transition: all .2s;
+}
+.btn-p { background: var(--acc); color: var(--fg); }
+.btn-p:hover { background: var(--acc-d); color: var(--fg); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,193,7,.45); }
+.btn-o { background: transparent; color: var(--fg); border: 1.5px solid var(--bdr); }
+.btn-o:hover { border-color: var(--fg); transform: translateY(-2px); }
+.cover-by { font-size: 14px; color: var(--fg3); line-height: 1.8; }
+.cover-by b { color: var(--fg); display: block; font-size: 16px; }
+/* ── CARDS ─────────────────────────────────────────────────────────── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; }
+.card {
+  background: var(--bg); border: 1px solid var(--bdr); border-radius: 16px;
+  padding: 24px 22px; box-shadow: var(--sh);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--sh2); border-color: var(--acc); }
+.card h3 { font-family: var(--font-display); font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.card .k { font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--acc-t); margin-bottom: 10px; display: block; }
+.card p, .card li { font-size: 14px; color: var(--fg2); line-height: 1.65; }
+.card li { padding: 3px 0 3px 18px; position: relative; }
+.card li::before { content: ''; position: absolute; left: 4px; top: 12px;
+  width: 7px; height: 7px; border-radius: 2px; background: var(--acc); }
+
+/* Insight cards: solves vs does not solve */
+.ins { border-radius: 16px; padding: 26px 24px; border: 1.5px solid; }
+.ins.yes { background: var(--bg3); border-color: var(--acc); }
+.ins.no  { background: var(--bg); border-color: var(--fg); }
+.ins .k { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+  display: inline-block; padding: 4px 12px; border-radius: 999px; margin-bottom: 14px; }
+.ins.yes .k { background: var(--acc); color: var(--fg); }
+.ins.no .k  { background: var(--fg); color: #fff; }
+.ins p { font-size: 16px; color: var(--fg); line-height: 1.6; font-weight: 500; }
+
+/* ── PULL QUOTE ────────────────────────────────────────────────────── */
+.quote {
+  border-radius: 18px; padding: 34px 36px; margin: 40px 0 8px;
+  background: linear-gradient(120deg, var(--fg) 0%, #333 100%);
+  color: #fff; position: relative; overflow: hidden;
+}
+.quote::after { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 8px; background: var(--acc); }
+.quote p { font-family: var(--font-display); font-size: 23px; font-weight: 700; line-height: 1.4; }
+.quote p em { font-style: normal; color: var(--acc); }
+.quote small { display: block; margin-top: 12px; font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.6); }
+
+/* ── PERSONA ID CARDS ──────────────────────────────────────────────── */
+.persona {
+  background: var(--bg); border: 1px solid var(--bdr); border-radius: 18px;
+  box-shadow: var(--sh); overflow: hidden;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.persona:hover { transform: translateY(-3px); box-shadow: var(--sh2); border-color: var(--acc); }
+.p-head { display: flex; gap: 14px; align-items: center; padding: 20px 20px 16px;
+  background: linear-gradient(120deg, var(--bg3), transparent 75%); }
+.avatar {
+  width: 58px; height: 58px; border-radius: 50%; flex-shrink: 0;
+  border: 3px solid var(--acc); box-shadow: var(--sh);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--fg);
+  user-select: none;
+}
+.av1 { background: linear-gradient(140deg, #FFE9A8, #FFC107); }
+.av2 { background: linear-gradient(140deg, #FFD6DE, #FF9FB0); }
+.av3 { background: linear-gradient(140deg, #D3EDFF, #8CC9F5); }
+.av4 { background: linear-gradient(140deg, #DFF7E8, #9BDDB4); }
+.p-name { font-family: var(--font-display); font-size: 17px; font-weight: 700; }
+.p-meta { font-size: 12.5px; color: var(--fg3); }
+.p-body { padding: 4px 20px 20px; }
+.p-quote { font-size: 13.5px; color: var(--fg2); line-height: 1.65; font-style: italic;
+  border-left: 3px solid var(--acc); padding-left: 12px; margin-bottom: 14px; }
+.p-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  background: var(--fg); color: #fff; border-radius: 999px; padding: 4px 11px; }
+.tag.y { background: var(--acc); color: var(--fg); }
+.tag.o { background: var(--bg2); color: var(--fg2); border: 1px solid var(--bdr); }
+.persona.hf { border: 2px solid var(--acc); box-shadow: 0 16px 40px rgba(255,193,7,.28); }
+.hf-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase; background: var(--acc); color: var(--fg);
+  border-radius: 999px; padding: 4px 12px; margin-bottom: 12px; }
+
+/* ── FLOWS ─────────────────────────────────────────────────────────── */
+.flow { background: var(--bg); border: 1px solid var(--bdr); border-radius: 16px;
+  padding: 24px; box-shadow: var(--sh); }
+.flow h4 { font-size: 13px; font-weight: 800; letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 18px; }
+.flow.now h4 { color: var(--fg3); }
+.flow.next h4 { color: var(--acc-t); }
+.step {
+  background: var(--bg2); border: 1px solid var(--bdr); border-radius: 10px;
+  padding: 11px 14px; font-size: 13.5px; color: var(--fg2); font-weight: 500;
+}
+.step b { color: var(--fg); }
+.step.hot { border: 1.5px solid var(--acc); background: var(--bg3); color: var(--fg); }
+.step.bad { border: 1.5px dashed var(--fg3); color: var(--fg3); }
+.arr { text-align: center; color: var(--acc-d); font-size: 15px; line-height: 1.5; font-weight: 700; }
+.loop-note { font-size: 12.5px; color: var(--fg3); margin-top: 14px; }
+
+/* Impact chains (vertical) */
+.chain { display: flex; flex-direction: column; align-items: center; gap: 0; max-width: 640px; margin: 0 auto; }
+.chain .step { width: 100%; text-align: center; font-weight: 600; color: var(--fg); }
+.chain .arr { font-size: 18px; }
+
+/* ── PHONE MOCKUPS (pure CSS) ──────────────────────────────────────── */
+.phones { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+.phone {
+  width: 300px; background: #fff; border-radius: 28px; border: 1px solid var(--bdr);
+  box-shadow: var(--sh2); overflow: hidden; flex-shrink: 0;
+}
+.ph-topbar { display: flex; align-items: center; gap: 10px; padding: 14px 18px;
+  border-bottom: 1px solid var(--bdr); font-family: var(--font-display);
+  font-size: 15px; font-weight: 700; }
+.ph-topbar span:first-child { color: var(--fg3); font-weight: 400; }
+.ph-body { padding: 14px 16px 18px; }
+.ph-loc { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--fg2);
+  background: var(--bg2); border: 1px solid var(--bdr); border-radius: 10px;
+  padding: 9px 12px; margin-bottom: 12px; }
+.ph-opt { display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 11px 12px; border-bottom: 1px solid var(--bdr); font-size: 13px; }
+.ph-opt:last-of-type { border-bottom: none; }
+.ph-opt .m { font-size: 18px; }
+.ph-opt .n { flex: 1; font-weight: 600; color: var(--fg); }
+.ph-opt .n small { display: block; font-weight: 400; font-size: 11px; color: var(--fg3); }
+.ph-opt .p { text-align: right; font-weight: 700; font-size: 12.5px; }
+.ph-opt .p small { display: block; font-weight: 400; color: var(--fg3); font-size: 11px; }
+.ph-opt.sel { background: var(--bg3); border: 1.5px solid var(--acc); border-radius: 10px; margin: 4px 0; }
+.ph-sec { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--fg3); margin: 14px 0 8px; }
+.ph-banner {
+  border: 2px solid var(--acc); background: var(--bg3); border-radius: 14px;
+  padding: 12px 14px; margin-bottom: 10px;
+}
+.ph-banner b { display: block; font-family: var(--font-display); font-size: 15px; }
+.ph-banner small { font-size: 11.5px; color: var(--fg2); display: block; line-height: 1.5; }
+.ph-banner .rng { font-size: 12px; font-weight: 700; margin-top: 6px; }
+.ph-cta {
+  display: block; text-align: center; background: var(--acc); color: var(--fg);
+  font-weight: 800; font-size: 13px; letter-spacing: .04em; text-transform: uppercase;
+  border-radius: 999px; padding: 13px; margin-top: 12px;
+}
+.ph-cta.ghost { background: var(--fg); color: #fff; }
+.ph-check { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--fg2);
+  padding: 7px 0; }
+.box { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid var(--bdr);
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: var(--fg); }
+.box.on { background: var(--acc); border-color: var(--acc); }
+.rad { width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid var(--bdr);
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.rad.on { border-color: var(--acc-d); }
+.rad.on::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--acc-d); }
+.slider { position: relative; height: 4px; border-radius: 2px; background: var(--bdr); margin: 16px 4px 6px; }
+.slider::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 45%;
+  background: var(--acc); border-radius: 2px; }
+.slider::after { content: ''; position: absolute; left: 45%; top: 50%; transform: translate(-50%,-50%);
+  width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 3px solid var(--acc);
+  box-shadow: var(--sh); }
+.ph-note { font-size: 11px; color: var(--fg3); text-align: right; }
+.mock-cap { text-align: center; margin-top: 14px; width: 300px; }
+.cap-pill { display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: .14em;
+  text-transform: uppercase; border-radius: 999px; padding: 4px 13px; }
+.cap-pill.ex  { background: var(--fg); color: #fff; }
+.cap-pill.pr  { background: var(--acc); color: var(--fg); border: 1.5px dashed var(--fg); }
+
+/* ── SWOT COLUMNS / SCOPE ──────────────────────────────────────────── */
+.col-h { font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 16px;
+  display: inline-block; padding: 5px 14px; border-radius: 999px; }
+.col-h.g { background: var(--acc); color: var(--fg); }
+.col-h.r { background: var(--fg); color: #fff; }
+.swot li { background: var(--bg); border: 1px solid var(--bdr); border-radius: 12px;
+  padding: 14px 16px; margin-bottom: 10px; font-size: 13.5px; color: var(--fg2); box-shadow: var(--sh); }
+.swot li b { display: block; color: var(--fg); font-size: 14px; margin-bottom: 3px; }
+.iter {
+  background: linear-gradient(120deg, var(--bg3), #fff 70%);
+  border: 2px solid var(--acc); border-radius: 16px; padding: 24px; margin-top: 26px;
+}
+.iter h3 { font-family: var(--font-display); font-size: 19px; font-weight: 800; margin-bottom: 10px; }
+.iter p { font-size: 14px; color: var(--fg2); }
+.iter-mini { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; align-items: center; }
+.iter-mini .tag { font-size: 12px; }
+
+/* ── METRICS ───────────────────────────────────────────────────────── */
+.hero-met {
+  background: linear-gradient(120deg, var(--fg), #3a3a3a); color: #fff;
+  border-radius: 18px; padding: 30px 32px; display: flex; align-items: center; gap: 26px;
+  margin-bottom: 26px; flex-wrap: wrap;
+}
+.hero-met .big { font-family: var(--font-display); font-size: 20px; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--acc); }
+.hero-met h3 { font-family: var(--font-display); font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+.hero-met p { font-size: 14px; color: rgba(255,255,255,.75); max-width: 620px; }
+.met-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+.met { background: var(--bg); border: 1px solid var(--bdr); border-radius: 14px;
+  padding: 18px 20px; box-shadow: var(--sh); }
+.met .k { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--acc-t); margin-bottom: 10px; display: block; }
+.met b { display: block; font-size: 14px; font-weight: 600; color: var(--fg); margin-bottom: 3px; }
+.met span { font-size: 13px; color: var(--fg2); }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px;
+  border-radius: 999px; font-size: 12.5px; font-weight: 500; white-space: nowrap;
+  background: var(--bg2); color: var(--fg2); border: 1px solid var(--bdr); }
+.pill b { color: var(--fg); font-weight: 700; }
+.pill.y { background: var(--acc); color: var(--fg); border-color: var(--acc); font-weight: 700; }
+
+/* ── SUBHEAD INSIDE SECTION ────────────────────────────────────────── */
+.h3 { font-family: var(--font-display); font-size: 26px; font-weight: 800;
+  letter-spacing: -.01em; margin: 46px 0 16px; }
+.h3:first-of-type { margin-top: 0; }
+.h3 span { color: var(--acc-t); }
+.lst li { font-size: 15px; color: var(--fg2); padding: 5px 0 5px 22px; position: relative; }
+.lst li::before { content: ''; position: absolute; left: 4px; top: 14px;
+  width: 8px; height: 8px; border-radius: 2px; background: var(--acc); }
+.lst li b { color: var(--fg); }
+
+/* ── FOOTER ────────────────────────────────────────────────────────── */
+.footer { border-top: 1px solid var(--bdr); padding: 40px 0;
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  font-size: 13px; color: var(--fg3); }
+.footer b { color: var(--fg); }
+
+/* ── REVEAL ON SCROLL ──────────────────────────────────────────────── */
+.js .rv { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+.js .rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .js .rv { opacity: 1; transform: none; transition: none; } }
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────── */
+@media (max-width: 1080px) {
+  .nav-links { display: none; }
+  .ham { display: flex; }
+  .grid4 { grid-template-columns: repeat(2, 1fr); }
+  .grid3 { grid-template-columns: repeat(2, 1fr); }
+  .cover { min-height: auto; }
+  .cover-in { grid-template-columns: 1fr; gap: 40px; }
+  .cover-in .phones { justify-content: flex-start; }
+  .wrap, .nav-i { width: 84vw; }
+}
+@media (max-width: 900px) {
+  .hero-met { align-items: flex-start; }
+}
+@media (max-width: 767px) {
+  section { padding: 56px 0; }
+  .h2 { font-size: 30px; }
+  .cover-in { grid-template-columns: 1fr; }
+  .grid2, .grid3, .grid4, .met-grid { grid-template-columns: 1fr; }
+  .nav-me { display: none; }
+  .phone { width: 100%; max-width: 320px; }
+  .mock-cap { width: 100%; max-width: 320px; }
+  .wrap, .nav-i { width: 90vw; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip">Skip to main content</a>
+
+<!-- Mobile overlay nav -->
+<nav class="ov" id="ov" role="dialog" aria-modal="true" aria-label="Deck navigation">
+  <button class="ov-close" id="ovClose" aria-label="Close menu">×</button>
+  <a href="#feature">Feature Selection</a>
+  <a href="#segments">User Segmentation</a>
+  <a href="#problem">Problem Framing</a>
+  <a href="#solution">Solution Analysis</a>
+  <a href="#impact">Business Impact</a>
+  <a href="#metrics">Success Metrics</a>
+</nav>
+
+<!-- Sticky top nav -->
+<header class="nav" id="mainNav">
+  <div class="nav-i">
+    <a href="#cover" class="nav-logo" aria-label="Back to cover"><span class="y">R</span>RAPIDO<span>Feature Teardown</span></a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#feature">Feature Selection</a></li>
+        <li><a href="#segments">User Segmentation</a></li>
+        <li><a href="#problem">Problem Framing</a></li>
+        <li><a href="#solution">Solution Analysis</a></li>
+        <li><a href="#impact">Business Impact</a></li>
+        <li><a href="#metrics">Success Metrics</a></li>
+      </ul>
+    </nav>
+    <div class="nav-r">
+      <a class="nav-me" href="https://cococommits.github.io/" target="_blank" rel="noopener noreferrer" title="Neha Bendale's portfolio (opens in a new tab)">Neha Bendale <span aria-hidden="true" style="font-size:12px">↗</span></a>
+
+      <button class="ham" id="ham" aria-label="Open navigation" aria-expanded="false" aria-controls="ov">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ═ COVER ═ -->
+<section class="cover" id="cover" aria-label="Cover">
+  <div class="wrap cover-in">
+    <div>
+      <span class="cover-kick">Product Teardown</span>
+      <h1 class="cover-title">RAPIDO Feature Analysis:<br><em>Add Services</em></h1>
+      <p class="cover-sub">Can we remove the decision from the booking?</p>
+      <div class="cover-ctas">
+        <a href="#feature" class="btn btn-p">Enter the Teardown ↓</a>
+        <a href="#solution" class="btn btn-o">Skip to the Proposal</a>
+      </div>
+      <p class="cover-by">
+        <b>Neha Bendale · Product Manager</b>
+      </p>
+    </div>
+    <div class="phones rv">
+      <div>
+        <div class="phone" role="img" aria-label="Reference wireframe of the existing Rapido ride list with Add Services">
+          <div class="ph-topbar"><span>‹</span> Choose a Ride</div>
+          <div class="ph-body">
+            <div class="ph-loc">📍 Indiranagar Metro Station</div>
+            <div class="ph-opt"><span class="m">🛵</span><span class="n">Bike Taxi<small>Fastest for single rider</small></span><span class="p">₹45<small>3 mins</small></span></div>
+            <div class="ph-opt"><span class="m">🛺</span><span class="n">Auto<small>Popular · No haggling</small></span><span class="p">₹85<small>5 mins</small></span></div>
+            <div class="ph-opt sel"><span class="m">🚗</span><span class="n">Cab Economy<small>AC sedan · Comfortable</small></span><span class="p">₹160<small>8 mins</small></span></div>
+            <div class="ph-sec">While you wait</div>
+            <div class="ph-banner">
+              <b>＋ Add Services</b>
+              <small>Try another mode while this request is pending</small>
+            </div>
+            <span class="ph-cta ghost">Book Cab Economy</span>
+          </div>
+        </div>
+        <div class="mock-cap"><span class="cap-pill ex">Existing Feature · Reference Wireframe</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═ SLIDE 2 · FEATURE SELECTION ═ -->
+<section class="band" id="feature" aria-label="Feature selection">
+  <div class="wrap">
+    <span class="slide-tag rv">Slide 02</span>
+    <span class="lb rv"><i></i><b>Feature Selection</b></span>
+    <h2 class="h2 rv">Rapido: the product <em>and the feature</em></h2>
+    <p class="sub rv">
+      Rapido started as a bike and auto platform and grew into a full urban mobility stack.
+      The value proposition stays constant across all of it: making everyday urban commute
+      affordable and convenient.
+    </p>
+
+    <div class="grid4">
+      <div class="card rv"><span class="k">Service</span><h3>🛵 Bike Taxi</h3><p>Quick, affordable solo rides that cut through heavy city traffic.</p></div>
+      <div class="card rv"><span class="k">Service</span><h3>🛺 Auto Rides</h3><p>Three wheeler rides with flexible fare options.</p></div>
+      <div class="card rv"><span class="k">Service</span><h3>🚗 Cabs</h3><p>Four wheeler rides, from budget options to larger premium vehicles.</p></div>
+      <div class="card rv"><span class="k">Service</span><h3>Ownly + More</h3><p>Food delivery, parcel delivery, metro tickets, and first mile / last mile connectivity.</p></div>
+    </div>
+
+    <h3 class="h3 rv">The feature under analysis: <span>Add Services</span></h3>
+    <p class="sub rv" style="margin-bottom:26px">
+      Add Services lets a user initiate another ride or service while an existing ride request
+      is still waiting for Captain acceptance. It is a smart answer to passive waiting, but it
+      stops one step short of solving the real pain.
+    </p>
+
+    <div class="grid2">
+      <div class="ins yes rv">
+        <span class="k">What Add Services solves</span>
+        <p>Users do not have to wait passively for their first ride request. They can initiate another service while the first request is still pending.</p>
+      </div>
+      <div class="ins no rv">
+        <span class="k">What it doesn't solve</span>
+        <p>The user still has to manually decide which alternative mode to select, book it, and wait again.</p>
+      </div>
+    </div>
+    <p class="loop-note rv" style="margin-top:16px">
+      This exact gap is the setup for everything that follows in this teardown.
+    </p>
+  </div>
+</section>
+<!-- ═ SLIDE 3 · USER SEGMENTATION ═ -->
+<section id="segments" aria-label="User segmentation">
+  <div class="wrap">
+    <span class="slide-tag rv">Slide 03</span>
+    <span class="lb rv"><i></i><b>User Segmentation</b></span>
+    <h2 class="h2 rv">Who gets the most value <em>from Add Services?</em></h2>
+    <p class="sub rv">
+      Value concentrates where trips are frequent and time is scarce. These are the segments
+      I would anchor on, with frequent travellers carrying the most weight.
+    </p>
+
+    <div class="grid4">
+      <div class="card rv">
+        <span class="k">Segment 01 · Frequent</span>
+        <h3>Working Professionals</h3>
+        <ul>
+          <li>Home to workplace travel, time is crucial</li>
+          <li>End-to-end commute, or home to public transport to destination</li>
+          <li>Gig workers hopping between client locations</li>
+        </ul>
+      </div>
+      <div class="card rv">
+        <span class="k">Segment 02</span>
+        <h3>Students</h3>
+        <ul>
+          <li>Regular home to college or tuition travel</li>
+          <li>Budget sensitive</li>
+          <li>Time still matters</li>
+        </ul>
+      </div>
+      <div class="card rv">
+        <span class="k">Segment 03</span>
+        <h3>Business Users</h3>
+        <ul>
+          <li>Parcel services and point-to-point movement</li>
+          <li>Reliability matters</li>
+          <li>Time-sensitive use cases</li>
+        </ul>
+      </div>
+      <div class="card rv">
+        <span class="k">Segment 04 · Frequent</span>
+        <h3>Budget-Conscious Workers</h3>
+        <ul>
+          <li>Highly price sensitive</li>
+          <li>Prefer lower cost modes</li>
+          <li>Daily commute cost meaningfully impacts income</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote rv">
+      <p>The more often you travel, the more every repeated booking decision <em>costs you</em>.</p>
+      <small>Key insight · frequent travellers feel the friction first and hardest</small>
+    </div>
+  </div>
+</section>
+
+<!-- ═ SLIDE 4 · PERSONAS ═ -->
+<section class="band" id="personas" aria-label="User personas">
+  <div class="wrap">
+    <span class="slide-tag rv">Slide 04</span>
+    <span class="lb rv"><i></i><b>User Segmentation · Personas</b></span>
+    <h2 class="h2 rv">Four users. Different priorities. <em>Same friction.</em></h2>
+    <p class="sub rv">
+      Illustrative personas for product analysis, not statistically representative research.
+      Each one optimises for something different; each one hits the same wall when a request stalls.
+    </p>
+
+    <div class="grid4">
+      <div class="persona rv">
+        <div class="p-head">
+          <div class="avatar av1" aria-hidden="true">YM</div>
+          <div>
+            <div class="p-name">Yogesh Mahajan</div>
+            <div class="p-meta">30 · Working Professional</div>
+          </div>
+        </div>
+        <div class="p-body">
+          <p class="p-quote">Time is crucial for me. I want to avoid traffic and reach home on time.</p>
+          <div class="p-tags"><span class="tag y">Time</span></div>
+        </div>
+      </div>
+
+      <div class="persona rv">
+        <div class="p-head">
+          <div class="avatar av2" aria-hidden="true">KM</div>
+          <div>
+            <div class="p-name">Kanika Mahajan</div>
+            <div class="p-meta">23 · Student</div>
+          </div>
+        </div>
+        <div class="p-body">
+          <p class="p-quote">I want budget travel, but I prefer Autos or Cabs. If neither is available, a female-driver Bike works.</p>
+          <div class="p-tags"><span class="tag y">Affordability</span><span class="tag">Safety</span></div>
+        </div>
+      </div>
+
+      <div class="persona rv">
+        <div class="p-head">
+          <div class="avatar av3" aria-hidden="true">S</div>
+          <div>
+            <div class="p-name">Shanta</div>
+            <div class="p-meta">35 · Budget-Conscious Worker</div>
+          </div>
+        </div>
+        <div class="p-body">
+          <p class="p-quote">Budget is very important for me. I will prefer to travel by Bike only.</p>
+          <div class="p-tags"><span class="tag y">Price</span></div>
+        </div>
+      </div>
+
+      <div class="persona hf rv">
+        <div class="p-head">
+          <div class="avatar av4" aria-hidden="true">A</div>
+          <div>
+            <span class="hf-badge">⚡ High-Frequency User</span>
+            <div class="p-name">Anitha</div>
+            <div class="p-meta">30 · Gig Worker · Urban Company</div>
+          </div>
+        </div>
+        <div class="p-body">
+          <p class="p-quote">I use Rapido six to seven times a day. I cannot arrive late; it cascades into my next bookings and my ratings.</p>
+          <div class="p-tags"><span class="tag y">Time</span><span class="tag">Reliability</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="loop-note rv">
+      For Anitha, every additional booking decision compounds the cost of friction. She is who I design this enhancement for first.
+    </p>
+  </div>
+</section>
+<!-- ═ SLIDE 5 · PROBLEM FRAMING ═ -->
+<section id="problem" aria-label="Problem framing">
+  <div class="wrap">
+    <span class="slide-tag rv">Slide 05</span>
+    <span class="lb rv"><i></i><b>Problem Framing</b></span>
+    <h2 class="h2 rv">Add Services solves waiting.<br><em>Does it solve decision fatigue?</em></h2>
+
+    <div class="quote rv" style="margin-top:26px">
+      <p>When the first request goes unanswered, users can Add Services. But they still have to <em>choose the next mode themselves, repeat the booking, and wait all over again</em>.</p>
+      <small>Problem statement</small>
+    </div>
+
+    <div class="grid2" style="margin-top:36px">
+      <div class="flow now rv">
+        <h4>The friction loop today</h4>
+        <div class="step"><b>Select mode</b></div>
+        <div class="arr">↓</div>
+        <div class="step"><b>Request ride</b></div>
+        <div class="arr">↓</div>
+        <div class="step"><b>Wait</b></div>
+        <div class="arr">↓</div>
+        <div class="step bad"><b>No acceptance</b></div>
+        <div class="arr">↓</div>
+        <div class="step"><b>Add another service</b></div>
+        <div class="arr">↓</div>
+        <div class="step bad"><b>Select another mode</b>, wait again</div>
+        <p class="loop-note">The loop repeats until something accepts, or the user gives up.</p>
+      </div>
+      <div>
+        <div class="card rv" style="margin-bottom:12px">
+          <span class="k">User impact</span>
+          <ul>
+            <li><b>Reduced certainty:</b> which available mode will actually accept first?</li>
+            <li><b>Cognitive load:</b> repeatedly comparing modes, price, ETA, and comfort</li>
+            <li><b>Time wastage:</b> every failed selection starts a new waiting cycle</li>
+            <li><b>Frustration:</b> repeated decisions make booking feel stressful</li>
+          </ul>
+        </div>
+        <div class="card rv">
+          <span class="k">Business impact</span>
+          <ul>
+            <li><b>Booking conversion:</b> failed attempts reduce completed rides</li>
+            <li><b>Retention:</b> repeated friction reduces future usage</li>
+            <li><b>Competitive leakage:</b> frustrated users switch platforms</li>
+            <li><b>Marketplace efficiency:</b> available supply gets abandoned across modes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ins yes rv" style="margin-top:30px">
+      <span class="k">Product hypothesis</span>
+      <p>If Rapido could automatically search across user-approved ride modes based on user priorities, Add Services could evolve from a manual fallback into an intelligent booking mechanism. This is a hypothesis to validate, not a validated conclusion.</p>
+    </div>
+  </div>
+</section>
+<!-- ═ SLIDE 6 · JOURNEY + PROPOSED SOLUTION ═ -->
+<section class="band" id="solution" aria-label="Solution analysis">
+  <div class="wrap">
+    <span class="slide-tag rv">Slide 06</span>
+    <span class="lb rv"><i></i><b>Solution Analysis</b></span>
+    <h2 class="h2 rv">From "Add Another Service" <em>to "Book Any"</em></h2>
+    <p class="sub rv">
+      The proposal is an enhancement, not a reinvention: keep everything users know, and
+      replace the manual fallback with one preference-driven request.
+    </p>
+
+    <div class="grid2">
+      <div class="flow now rv">
+        <h4>Current journey · manual</h4>
+        <div class="step">Launch app</div>
+        <div class="arr">↓</div>
+        <div class="step">Select destination</div>
+        <div class="arr">↓</div>
+        <div class="step">View modes + fare + average wait</div>
+        <div class="arr">↓</div>
+        <div class="step"><b>Select a ride mode</b></div>
+        <div class="arr">↓</div>
+        <div class="step">Wait for Captain acceptance</div>
+        <div class="arr">↓</div>
+        <div class="step bad">Use Add Services, <b>manually pick another mode</b></div>
+        <div class="arr">↓</div>
+        <div class="step bad">Wait again, repeat if needed</div>
+        <p class="loop-note">Pain concentrated in: cognitive load · wait time · repeated decisions</p>
+      </div>
+      <div class="flow next rv">
+        <h4>Proposed · Book Any flow</h4>
+        <div class="step">Launch app</div>
+        <div class="arr">↓</div>
+        <div class="step">Select destination</div>
+        <div class="arr">↓</div>
+        <div class="step hot"><b>Tap Book Any</b></div>
+        <div class="arr">↓</div>
+        <div class="step hot"><b>Set preferences:</b> priority (time / budget / comfort) + eligible modes (Bike, Auto, Mini, Prime, Sedan, XL)</div>
+        <div class="arr">↓</div>
+        <div class="step">Rapido searches eligible modes</div>
+        <div class="arr">↓</div>
+        <div class="step hot">First matching Captain accepts → <b>search stops</b></div>
+        <div class="arr">↓</div>
+        <div class="step"><b>Ride confirmed</b></div>
+        <p class="loop-note">The user defines the trade-off. Rapido handles the search.</p>
+      </div>
+    </div>
+
+    <div class="iter rv" style="margin-top:26px">
+      <span class="tag y" style="margin-bottom:10px">How it works · example</span>
+      <h3>Priority TIME · eligible modes AUTO + MINI + PRIME</h3>
+      <p>
+        If no Auto accepts within the defined threshold, Rapido automatically searches the next
+        eligible mode. The moment a Captain accepts anywhere in the set, the search stops and
+        the ride is confirmed. One click stands in for a whole chain of manual fallbacks.
+      </p>
+    </div>
+
+    <div class="quote rv">
+      <p>You choose what matters. <em>Rapido chooses what to book.</em></p>
+      <small>The product principle behind Book Any</small>
+    </div>
+
+    <h3 class="h3 rv">The concept, visualised <span>(clearly proposed, not existing)</span></h3>
+    <p class="sub rv" style="margin-bottom:26px">
+      These are conceptual mocks for the proposed experience only. Book Any does not exist in
+      Rapido today. The existing Add Services screen above is the reference point.
+    </p>
+
+    <div class="phones">
+      <div class="rv">
+        <div class="phone" role="img" aria-label="Conceptual mock of the Book Any selection screen">
+          <div class="ph-topbar"><span>‹</span> Choose a Ride</div>
+          <div class="ph-body">
+            <div class="ph-sec" style="margin-top:0">⚡ Fastest dispatch</div>
+            <div class="ph-banner">
+              <b>🔀 BOOK ANY</b>
+              <small>Matches the next available Bike, Auto, or Cab based on your preferences</small>
+              <div class="rng">₹45 to ₹120 · ~4 mins</div>
+            </div>
+            <div class="ph-sec">Or choose specific</div>
+            <div class="ph-opt"><span class="m">🛵</span><span class="n">Bike</span><span class="p">₹45<small>3 mins</small></span></div>
+            <div class="ph-opt"><span class="m">🛺</span><span class="n">Auto</span><span class="p">₹85<small>5 mins</small></span></div>
+            <div class="ph-opt"><span class="m">🚗</span><span class="n">Cab Economy</span><span class="p">₹120<small>7 mins</small></span></div>
+            <span class="ph-cta">Confirm Book Any</span>
+          </div>
+        </div>
+        <div class="mock-cap"><span class="cap-pill pr">Proposed Enhancement · Concept Mock</span></div>
+      </div>
+
+      <div class="rv">
+        <div class="phone" role="img" aria-label="Conceptual mock of the Book Any preferences screen">
+          <div class="ph-topbar"><span>‹</span> Book Any Preferences</div>
+          <div class="ph-body">
+            <div class="ph-sec" style="margin-top:0">Allowed vehicle types</div>
+            <div class="ph-check"><span class="box on">✓</span>🛵 Bike Taxi</div>
+            <div class="ph-check"><span class="box on">✓</span>🛺 Auto / Rickshaw</div>
+            <div class="ph-check"><span class="box on">✓</span>🚗 Cab Economy (Lite)</div>
+            <div class="ph-check"><span class="box"></span>🚙 Premium SUV</div>
+            <div class="ph-sec">Max price cap</div>
+            <div class="slider"></div>
+            <div class="ph-note">Auto-cancel if fare exceeds ₹150</div>
+            <div class="ph-sec">Dispatch priority</div>
+            <div class="ph-check"><span class="rad on"></span>Fastest arrival</div>
+            <div class="ph-check"><span class="rad"></span>Lowest fare</div>
+            <div class="ph-sec">Safety and comfort</div>
+            <div class="ph-check"><span class="box on">✓</span>Helmet required for Bike</div>
+            <div class="ph-check"><span class="box on">✓</span>Top-rated Captains only (4.5★+)</div>
+            <span class="ph-cta">Save Preferences</span>
+          </div>
+        </div>
+        <div class="mock-cap"><span class="cap-pill pr">Proposed Enhancement · Concept Mock</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═ SLIDE 7 · STRENGTHS, RISKS, DESIGN, SCOPE ═ -->
+<section id="analysis" aria-label="Strengths and weaknesses">
+  <div class="wrap">
+    <span class="slide-tag rv">Slide 07</span>
+    <span class="lb rv"><i></i><b>Solution Analysis</b></span>
+    <h2 class="h2 rv">Why Book Any could improve Add Services, <em>and where it could fail</em></h2>
+
+    <div class="grid2">
+      <div>
+        <span class="col-h g rv">Strengths</span>
+        <ul class="swot">
+          <li class="rv"><b>Reduced cognitive load</b>One preference-setting step replaces repeated ride selection.</li>
+          <li class="rv"><b>Faster booking</b>Rapido searches across eligible modes instead of making the user restart manually.</li>
+          <li class="rv"><b>Preference-based matching</b>Users define what matters: time, budget, or comfort.</li>
+          <li class="rv"><b>Better supply matching</b>Available supply across multiple eligible modes gets utilised.</li>
+          <li class="rv"><b>Compounds for frequent users</b>The benefit multiplies for people booking several rides a day.</li>
+        </ul>
+      </div>
+      <div>
+        <span class="col-h r rv">Risks and weaknesses</span>
+        <ul class="swot">
+          <li class="rv"><b>Preference setup friction</b>Users may not want to configure preferences every time.</li>
+          <li class="rv"><b>Preference complexity</b>Too many choices could recreate the very cognitive load we are removing.</li>
+          <li class="rv"><b>Trade-off conflicts</b>The cheapest option may not be fastest; the fastest may not be most comfortable.</li>
+          <li class="rv"><b>Trust</b>Users need to know which ride they could receive before confirming.</li>
+          <li class="rv"><b>Supply constraints</b>Book Any cannot manufacture Captains where none exist.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="iter rv">
+      <span class="tag y" style="margin-bottom:10px">Next iteration idea</span>
+      <h3>Remember my preference</h3>
+      <p>Setup friction falls away for frequent routes. Save a route once, ride it in one tap every time after.</p>
+      <div class="iter-mini">
+        <span class="pill"><b>Route</b> Home → Office</span>
+        <span class="pill"><b>Priority</b> Fastest</span>
+        <span class="pill"><b>Eligible</b> Auto + Bike + Mini</span>
+        <span class="pill y">Next time: Book Any → one tap</span>
+      </div>
+    </div>
+
+    <h3 class="h3 rv">Design principles <span>(derived from the risks)</span></h3>
+    <div class="grid3">
+      <div class="card rv"><span class="k">Principle</span><h3>Defaults over decisions</h3><p>Pre-fill preferences from behaviour so Book Any works with zero setup for most rides.</p></div>
+      <div class="card rv"><span class="k">Principle</span><h3>Small choice set</h3><p>One priority, a short mode list, one price cap. Every extra control is cognitive load returning through the back door.</p></div>
+      <div class="card rv"><span class="k">Principle</span><h3>Reversible, always</h3><p>The specific-mode list stays one scroll away. Book Any never replaces choice; it shortcuts it.</p></div>
+    </div>
+
+    <h3 class="h3 rv">Trust and transparency <span>(non negotiable)</span></h3>
+    <ul class="lst rv">
+      <li><b>Show the menu before confirm:</b> users always see which modes they might get and the price range.</li>
+      <li><b>No surprises at pickup:</b> the matched mode, fare, and Captain details appear the instant a match is made.</li>
+      <li><b>Opt in, never default:</b> Book Any is a tap the user chooses, sitting alongside the existing flow it grew out of.</li>
+      <li><b>Safety preferences travel with the user:</b> constraints like helmet required or top-rated Captains apply across every match, which is what makes Book Any safe for someone like Kanika.</li>
+    </ul>
+
+    <h3 class="h3 rv">Scope discipline <span>(what I would ship first)</span></h3>
+    <div class="grid2">
+      <div class="card rv" style="border:2px solid var(--acc)">
+        <span class="k">Version 1</span>
+        <ul>
+          <li>Book Any with priority plus eligible modes plus price cap</li>
+          <li>Transparent match preview before confirmation</li>
+          <li>Works beside, not instead of, Add Services</li>
+        </ul>
+      </div>
+      <div class="card rv">
+        <span class="k">Deliberately later</span>
+        <ul>
+          <li>Remember my preference for saved routes</li>
+          <li>Finer controls (per-route rules, schedules)</li>
+          <li>Anything that expands the choice set before V1 proves the loop</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═ SLIDE 8 · BUSINESS IMPACT ═ -->
+<section class="band" id="impact" aria-label="Business impact">
+  <div class="wrap">
+    <span class="slide-tag rv">Slide 08</span>
+    <span class="lb rv"><i></i><b>Business Impact</b></span>
+    <h2 class="h2 rv">The value chain <em>Book Any bets on</em></h2>
+    <p class="sub rv">
+      The logic is a chain: remove manual rebooking and confirmation gets faster, which lifts
+      successful bookings, which improves the experience, which brings users back more often.
+    </p>
+
+    <div class="chain rv">
+      <div class="step hot">Less manual rebooking</div>
+      <div class="arr">↓</div>
+      <div class="step">Lower time to confirmation</div>
+      <div class="arr">↓</div>
+      <div class="step">Higher successful bookings</div>
+      <div class="arr">↓</div>
+      <div class="step">Better user experience</div>
+      <div class="arr">↓</div>
+      <div class="step hot">Higher repeat usage</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═ SLIDE 8 · SUCCESS METRICS ═ -->
+<section id="metrics" aria-label="Success metrics">
+  <div class="wrap">
+    <span class="slide-tag rv">Slide 08</span>
+    <span class="lb rv"><i></i><b>Success Metrics</b></span>
+    <h2 class="h2 rv">How would we know <em>Book Any works?</em></h2>
+
+    <div class="hero-met rv">
+      <div class="big">North Star</div>
+      <div>
+        <h3>Successful Book Any rides per Book Any user per 30 days</h3>
+        <p>One number that captures both usefulness (rides complete) and habit (users come back).</p>
+      </div>
+    </div>
+
+    <div class="met-grid">
+      <div class="met rv">
+        <span class="k">1 · Efficiency</span>
+        <b>Median time to confirmation</b>
+        <span>Time from initial Book Any request to Captain acceptance.</span>
+        <b style="margin-top:10px">Booking attempts per completed ride</b>
+        <span>Average attempts needed to complete a ride.</span>
+      </div>
+      <div class="met rv">
+        <span class="k">2 · Conversion</span>
+        <b>Book Any completion rate</b>
+        <span>Completed Book Any rides / total Book Any requests × 100.</span>
+        <b style="margin-top:10px">Book Any cancellation rate</b>
+        <span>Cancelled Book Any bookings / total Book Any bookings × 100.</span>
+      </div>
+      <div class="met rv">
+        <span class="k">3 · Retention</span>
+        <b>30-day Book Any repeat rate</b>
+        <span>Users completing 2+ Book Any rides in 30 days / users completing 1+ × 100.</span>
+        <b style="margin-top:10px">Cohort retention</b>
+        <span class="chips" style="margin-top:6px">
+          <span class="pill">D7</span><span class="pill">D14</span><span class="pill">D21</span>
+          <span class="pill">D30</span><span class="pill">D60</span><span class="pill">D90</span>
+        </span>
+      </div>
+      <div class="met rv">
+        <span class="k">4 · Marketplace health</span>
+        <span class="chips" style="margin-top:2px">
+          <span class="pill"><b>Captain</b> acceptance rate</span>
+          <span class="pill"><b>Mode-switch</b> rate</span>
+          <span class="pill"><b>Median</b> pickup ETA</span>
+          <span class="pill"><b>Supply</b> utilisation</span>
+        </span>
+      </div>
+    </div>
+
+    <h3 class="h3 rv">How I would validate it <span>(before any big build)</span></h3>
+    <div class="grid2">
+      <div class="card rv">
+        <span class="k">Experiment</span>
+        <p>
+          A/B test in 2 to 3 high-supply cities where Add Services usage is already strong.
+          Control: today's Add Services flow. Treatment: Book Any as an option beside it.
+          Read time to confirmation, completion rate, and repeat usage, and watch cancellation
+          rate as the guardrail.
+        </p>
+      </div>
+      <div class="card rv">
+        <span class="k">Success looks like</span>
+        <p>
+          Time to confirmation drops and completion rises for the treatment group, without an
+          increase in cancellations or worse marketplace health. If cancellations climb, the
+          trust problem is real and the matching logic, not the UI, is what to fix next.
+        </p>
+      </div>
+    </div>
+
+    <div class="quote rv">
+      <p>Add Services removes passive waiting. <em>Book Any could remove the active decision-making needed to recover from a failed booking.</em></p>
+      <small>Closing statement · framed as a hypothesis until the data says otherwise</small>
+    </div>
+
+    <div class="footer">
+      <span><b>Rapido Add Services teardown</b> with the proposed Book Any enhancement</span>
+      <span>Designed and written by <b>Neha Bendale</b>, Product Manager</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* Enable reveal animations only when JS runs, so content is never stuck hidden */
+document.documentElement.classList.add('js');
+
+/* Webfont detection: swap to system stack if Google Fonts did not load */
+(function () {
+  function fallback() { document.documentElement.classList.add('no-wf'); }
+  if (!document.fonts || !document.fonts.check) { fallback(); return; }
+  var t = setTimeout(fallback, 3000);
+  document.fonts.ready.then(function () {
+    clearTimeout(t);
+    if (!document.fonts.check('16px "Sora"') ||
+        !document.fonts.check('16px "Inter"')) fallback();
+  });
+}());
+
+/* Nav: blur on scroll, scroll-spy active state */
+var nav = document.getElementById('mainNav');
+var navLinks = document.querySelectorAll('.nav-links a, .ov a');
+var anchors = ['feature', 'segments', 'problem', 'solution', 'impact', 'metrics'];
+
+function onScroll() {
+  nav.classList.toggle('scrolled', window.scrollY > 10);
+  var y = window.scrollY + 120, active = null;
+  anchors.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el && el.offsetTop <= y) active = id;
+  });
+  /* personas section belongs to User Segmentation */
+  var per = document.getElementById('personas');
+  if (per && per.offsetTop <= y && document.getElementById('problem').offsetTop > y) active = 'segments';
+  navLinks.forEach(function (a) {
+    a.classList.toggle('active', active !== null && a.getAttribute('href') === '#' + active);
+  });
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+/* Mobile overlay menu */
+var ham = document.getElementById('ham'), ov = document.getElementById('ov'),
+    ovClose = document.getElementById('ovClose');
+function closeOv() { ov.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); }
+ham.addEventListener('click', function () {
+  var open = ov.classList.toggle('open');
+  ham.setAttribute('aria-expanded', String(open));
+});
+ovClose.addEventListener('click', closeOv);
+ov.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeOv); });
+
+/* Reveal on scroll */
+if ('IntersectionObserver' in window) {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+} else {
+  document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+}
+</script>
+</body>
+</html>
